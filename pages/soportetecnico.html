@@ -292,89 +292,15 @@
 
 </div>
 
-<div id="chatBtn">
-
-    <i class="fa-solid fa-life-ring"></i>
-
-</div>
-
-<div id="chatWindow" class="hidden">
-
-    <div class="chat-header">
-
-        Solicitar ayuda
-
-        <span id="closeChat">✖</span>
-
-    </div>
-
-    <div class="chat-body">
-
-        <a href="maisia.html" style="display: block; text-align: center; background: var(--accent); color: white; padding: 12px; border-radius: 8px; text-decoration: none; margin-bottom: 20px; font-weight: bold;">
-            <i class="fa-solid fa-robot"></i> Consultar a MAIS_IA
-        </a>
-        
-        <div style="text-align: center; margin-bottom: 15px; color: #666; font-size: 0.9em;">o envía un mensaje a un compañero:</div>
-
-        <label>
-
-            ¿Quién quieres que te ayude?
-
-        </label>
-
-        <select id="empleado">
-
-            <option value="">Selecciona un compañero</option>
-
-            <option>José</option>
-            <option>Virginia</option>
-            <option>Roberto</option>
-            <option>Lucas</option>
-            <option>Fernando</option>
-            <option>Raúl</option>
-            <option>Carla</option>
-
-        </select>
-
-        <label>
-
-            Describe el problema
-
-        </label>
-
-        <textarea
-            id="mensaje"
-            rows="8"
-            placeholder="Describe aquí el problema..."
-        ></textarea>
-
-        <button id="enviarAyuda">
-
-            <i class="fa-solid fa-envelope"></i> Enviar solicitud
-
-        </button>
-
-    </div>
-
-</div>
+    <!-- Botón flotante MAIS_IA -->
+    <a href="maisia.html" id="maisIaBtn" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: auto; padding: 12px 20px; border-radius: 30px; text-decoration: none; font-size: 1rem; font-weight: bold; right: 25px; bottom: 25px; z-index: 9999; background: var(--accent); color: white; position: fixed; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s, background 0.2s;" onmouseover="this.style.transform='scale(1.05)'; this.style.background='#dc2626';" onmouseout="this.style.transform='scale(1)'; this.style.background='var(--accent)';">
+        <i class="fa-solid fa-robot" style="font-size: 1.2rem;"></i>
+        <span>¿Tienes alguna duda? Habla con Maisito</span>
+    </a>
 
 <script>
 
-const chatBtn=document.getElementById("chatBtn");
-const chatWindow=document.getElementById("chatWindow");
-const closeChat=document.getElementById("closeChat");
 
-chatBtn.onclick=()=>{
-
-    chatWindow.classList.toggle("hidden");
-
-}
-
-closeChat.onclick=()=>{
-
-    chatWindow.classList.add("hidden");
-
-}
 
 document.getElementById("enviarAyuda").onclick=function(){
 

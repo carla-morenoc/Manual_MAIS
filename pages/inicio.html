@@ -354,21 +354,11 @@
         <i class="fa-solid fa-book-bookmark"></i> Manual MAIS – Versión Web Corporativa 2.0
     </footer>
 
-    <!-- Chat Widget -->
-    <div id="chatBtn"><i class="fa-solid fa-comment-dots"></i></div>
-
-    <div id="chatWindow" class="hidden">
-        <div class="chat-header">
-            <span><i class="fa-solid fa-robot"></i> Asistente MAIS</span>
-            <span id="closeChat"><i class="fa-solid fa-xmark"></i></span>
-        </div>
-        <div style="padding: 20px; text-align: center; background: #111;">
-            <p style="margin-bottom: 20px; color: #fff;">¿Tienes dudas sobre el uso de MAIS? Nuestro asistente interactivo está disponible para ayudarte al instante.</p>
-            <a href="maisia.html" style="display: block; text-align: center; background: var(--accent); color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold;">
-                <i class="fa-solid fa-robot"></i> Consultar a MAIS_IA
-            </a>
-        </div>
-    </div>
+    <!-- Botón flotante MAIS_IA -->
+    <a href="maisia.html" id="maisIaBtn" style="display: flex; align-items: center; gap: 10px; width: auto; padding: 12px 20px; border-radius: 30px; text-decoration: none; font-size: 1rem; font-weight: bold; right: 25px; bottom: 25px; z-index: 9999; background: var(--accent); color: white; position: fixed; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+        <i class="fa-solid fa-robot" style="font-size: 1.2rem;"></i>
+        <span>¿Tienes alguna duda? Habla con Maisito</span>
+    </a>
 
     <script src="../assets/js/main.js"></script>
     <script>
