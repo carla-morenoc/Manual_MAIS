@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="assets/css/site.css">
 <style>
 :root {
-    --primary: #4a90e2;
-    --secondary: #6a11cb;
-    --accent: #00f5ff;
-    --glass: rgba(255,255,255,0.12);
-    --radius: 18px;
+    --primary: #ffffff;
+    --secondary: #333333;
+    --accent: #b91c1c;
+    --glass: transparent;
+    --radius: 8px;
 }
 
 *{
@@ -32,56 +32,21 @@ body{
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    overflow-x:hidden;
     padding: 20px 0;
-    background: linear-gradient(-45deg, #3692fa, #4396da, #1b71e0, #365cc7) !important;
-    background-size: 400% 400% !important;
-    animation: gradientMove 12s ease infinite !important;
+    background: #000000 !important;
 }
 
-/* Fondo animado */
-@keyframes gradientMove {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
+/* Fondo animado eliminado */
 
 /* Partículas */
-body::before, body::after{
-    content:"";
-    position:absolute;
-    width:300px;
-    height:300px;
-    background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%);
-    border-radius:50%;
-    animation: float 8s infinite ease-in-out;
-}
-
-body::before{
-    top:-100px;
-    left:-100px;
-}
-
-body::after{
-    bottom:-100px;
-    right:-100px;
-    animation-delay:4s;
-}
-
-@keyframes float{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(30px);}
-}
+/* Partículas eliminadas */
 
 /* Contenedor principal */
 .container{
     position:relative;
     text-align:center;
     padding:50px 40px;
-    background: var(--glass);
-    border-radius: var(--radius);
-    backdrop-filter: blur(18px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    background: transparent;
     color:white;
     width:min(95%, 520px);
     max-width:520px;
@@ -93,10 +58,7 @@ body::after{
     max-width:520px;
     margin-top: 24px;
     padding: 22px 24px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 22px;
-    backdrop-filter: blur(14px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+    background: transparent;
     color: white;
     text-align: center;
 }
@@ -140,16 +102,16 @@ p{
     border-radius: 50px;
     text-decoration:none;
     color:white;
-    background: linear-gradient(90deg, var(--accent), var(--primary));
+    background: transparent;
+    border: 1px solid white;
     overflow:hidden;
     transition:0.4s ease;
-    box-shadow:0 0 1px rgba(0,255,255,0.5);
-    
 }
 
 .btn:hover{
-    transform:translateY(-4px) scale(1.05);
-    box-shadow:0 0 25px rgba(0,255,255,0.8);
+    transform:translateY(-4px);
+    background: white;
+    color: black;
 }
 
 /* Efecto ripple */
@@ -193,17 +155,15 @@ p{
 
 /* Estilos para el botón que debe quedar como el primer contenedor */
 .btn-ghost{
-    border: none;
-    background: var(--glass);
+    border: 1px solid white;
+    background: transparent;
     color: white;
     padding:12px 30px;
-    border-radius: 18px;
-    backdrop-filter: blur(14px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    border-radius: 50px;
     cursor: pointer;
     font-weight:600;
 }
-.btn-ghost:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+.btn-ghost:hover{ background: white; color: black; }
 
 /* Input estilo agradable */
 input.input-empresa{
@@ -211,8 +171,8 @@ input.input-empresa{
     padding:12px 14px;
     margin:10px 0 18px 0;
     border-radius:12px;
-    border: none;
-    background: rgba(255,255,255,0.06);
+    border: 1px solid #333333;
+    background: transparent;
     color: white;
     outline: none;
 }
