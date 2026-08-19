@@ -155,15 +155,16 @@ p{
 
 /* Estilos para el botón que debe quedar como el primer contenedor */
 .btn-ghost{
-    border: 1px solid white;
+    border: 1px solid var(--accent);
     background: transparent;
-    color: white;
+    color: var(--accent);
     padding:12px 30px;
     border-radius: 50px;
     cursor: pointer;
     font-weight:600;
+    transition: 0.3s;
 }
-.btn-ghost:hover{ background: white; color: black; }
+.btn-ghost:hover{ background: var(--accent); color: white; }
 
 /* Input estilo agradable */
 input.input-empresa{
@@ -171,10 +172,14 @@ input.input-empresa{
     padding:12px 14px;
     margin:10px 0 18px 0;
     border-radius:12px;
-    border: 1px solid #333333;
+    border: 1px solid var(--accent);
     background: transparent;
     color: white;
     outline: none;
+    transition: 0.3s;
+}
+input.input-empresa:focus {
+    box-shadow: 0 0 8px rgba(185, 28, 28, 0.5);
 }
 .btnlink{
     text-decoration: none;
