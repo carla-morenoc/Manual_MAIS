@@ -18,13 +18,19 @@
 
 /* Reset ligero */
 * { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; padding: 0; }
+html, body { min-height: 100vh; margin: 0; padding: 0; }
 body {
 	font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 	color: var(--text);
 	background: var(--color-bg);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Iconos corporativos en títulos */
+h1 i, h2 i, h3 i, h4 i, .titulo-general i, .doc-block-title i {
+    color: var(--accent) !important;
+    margin-right: 8px;
 }
 
 /* Contenedores y layout */
