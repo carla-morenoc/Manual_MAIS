@@ -68,16 +68,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function enviarMensajeAegis(texto) {
-        // En el futuro, aquí se hará el fetch() a la API de Aegis.
-        // await fetch('https://api.aegis...', { method: 'POST', body: JSON.stringify({ message: texto }) });
-        
-        // Simulamos un retraso de red
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const randomResponse = respuestasAegis[Math.floor(Math.random() * respuestasAegis.length)];
-                resolve(randomResponse);
-            }, 1500 + Math.random() * 1000);
-        });
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/chat/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: texto,
+                    document_ids: []
+                })
+            });
+
+            if (!response.ok) {
+                console.error("Error en la respuesta del servidor:", response.statusText);
+                return "Lo siento, ha ocurrido un error al conectar con el servidor de MAIS_IA.";
+            }
+
+            const data = await response.json();
+            return data.answer;
+        } catch (error) {
+            console.error("Error de conexión:", error);
+            return "Lo siento, no puedo conectar con el servidor en este momento. Verifica que la API local esté corriendo en el puerto 8000.";
+        }
     }
 
     async function handleSend() {
