@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uso del MAIS</title>
+
+    <link rel="stylesheet" href="../assets/css/site.css">
+<style>
+
+    body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: #f2f5f9;
+        margin: 0;
+        padding: 50px 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .wrapper {
+        max-width: 850px;
+        width: 100%;
+    }
+
+    /* TÍTULO GENERAL FUERA DEL SECTION */
+    .titulo-general {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .titulo-general h1 {
+        font-size: 2.2rem;
+        color: #1f4e8c;
+        margin-bottom: 10px;
+    }
+
+    .titulo-general p {
+        color: #555;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    /* DOCUMENTO */
+    .documento {
+        background: #ffffff;
+        padding: 45px;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        border-left: 6px solid #1f4e8c;
+        margin-bottom: 35px;
+    }
+
+    h2 {
+        margin-top: 0;
+        color: #1f4e8c;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    p, li {
+        line-height: 1.7;
+        color: #444;
+    }
+
+    ol {
+        padding-left: 20px;
+    }
+
+    .nota {
+        background: #eef3fb;
+        padding: 15px 18px;
+        border-radius: 8px;
+        margin-top: 20px;
+        font-size: 0.95rem;
+    }
+
+    .enlace-externo {
+        margin-top: 20px;
+        padding: 18px;
+        background: #f4f7fc;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .enlace-externo a {
+        text-decoration: none;
+        color: #1f4e8c;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .enlace-externo a:hover {
+        text-decoration: underline;
+    }
+
+    code {
+        background: #f4f4f4;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+        .documento {
+            padding: 30px;
+        }
+    }
+    /* CONTENEDOR DE IMAGEN */
+.imagen-placeholder {
+    text-align: center;
+    margin: 25px 0;
+}
+
+/* IMÁGENES DEL MANUAL */
+.imagen-placeholder img {
+    max-width: 100%;
+    width: 100%;
+    max-width: 750px;        /* tamaño máximo visual */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.icono-pequeno {
+    display: block;
+    margin: 20px auto;
+    width: 12px;      /* tamaño del icono */
+    height: auto;
+}
+/* CONTENEDOR PEQUEÑO PARA ICONOS */
+.icono-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.icono-container img {
+    width: 80px;   /* tamaño real del icono */
+    height: auto;
+}
+
+
+
+
+    main {
+        max-width: 850px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="wrapper"><main>
+
+<div style="margin-bottom: 20px; text-align: left;">
+    <a href="inicio.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; font-weight: 600; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px 16px; background: #0f3a68; border: 1px solid #0f3a68; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background 0.2s, transform 0.2s;" onmouseover="this.style.background='#2c5c92'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#0f3a68'; this.style.transform='none';">
+        &#8592; Volver al Menú Principal
+    </a>
+</div>
+
+<section class="documento">
+<h1>📦 Botón de Artículos</h1>
+<p>En este apartado encontrarás una ventana <strong>similar a la de Clientes y Proveedores</strong>, pero orientada a la gestión de productos.</p>
+
+<h3>➕ Crear un nuevo artículo</h3>
+<p>Si pulsas la tecla <strong>“+”</strong>, el sistema creará un <strong>nuevo artículo</strong> para que puedas comenzar a rellenar sus datos.</p>
+<img src="../assets/images/articulos.jpg" alt="Artículos MAIS" >
+
+<h3>💰 Datos imprescindibles del artículo</h3>
+<p>Para que un artículo sea funcional en el MAIS, es <strong>obligatorio</strong> completar:</p>
+
+<div class="tip tip-obligatory">
+✔️ <strong>Precio de costo:</strong> Es el importe que <strong>nos cuesta a nosotros</strong> adquirir el artículo.<br>
+✔️ <strong>Tarifa de venta:</strong> Es el <strong>precio de venta al público</strong>. Puedes configurar varias tarifas, pero lo habitual es usar la <strong>Tarifa 1</strong>.
+</div>
+
+<h3>🛠️ Opciones adicionales del artículo</h3>
+<p>Puedes añadir información extra para una gestión más completa:</p>
+<div class="tip tip-optional">
+- ⭐ <strong>Descuento especial</strong><br>
+- 🛡️ <strong>Garantía</strong><br>
+- 🔧 <strong>Características específicas</strong>
+</div>
+
+<h3>⚠️ ¡Atención! Selección del tipo de IVA</h3>
+<p>Si presionas <strong>F2</strong> sobre el campo de IVA, podrás ver todos los tipos disponibles.</p>
+<img src="../assets/images/IVA.jpg" alt="Tipos de IVA MAIS" >
+
+<h4>Tipos de IVA y su efecto:</h4>
+<ul>
+<li><strong>IVA NO INCLUIDO EN PRECIOS</strong> ➜ A la tarifa de venta se le sumará el <strong>21%</strong> correspondiente.</li>
+<li><strong>IVA INCLUIDO EN PRECIOS</strong> ➜ La tarifa de venta ya incluye el IVA, por lo que <strong>no se añade nada</strong>.</li>
+</ul>
+
+<div class="tip tip-obligatory">
+🚫 <strong>Importante:</strong> No se puede facturar sin IVA. En caso de necesitar una exención, deberá comunicarse a MAIS para que ellos lo configuren correctamente.<br><br>
+<strong>SIEMPRE, SIEMPRE, SIEMPRE habrá que hacer inventario o stock de los artículos</strong> para que al hacer una venta no se descuenten productos que no tenemos.
+</div>
+
+<h3>🖼️ Imagen del artículo</h3>
+<p>Puedes asignar una <strong>imagen</strong> al artículo, lo que facilita su identificación en los listados.</p>
+
+</section>

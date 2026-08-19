@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uso del MAIS</title>
+
+    <link rel="stylesheet" href="../assets/css/site.css">
+<style>
+
+    body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: #f2f5f9;
+        margin: 0;
+        padding: 50px 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .wrapper {
+        max-width: 850px;
+        width: 100%;
+    }
+
+    /* TÍTULO GENERAL FUERA DEL SECTION */
+    .titulo-general {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .titulo-general h1 {
+        font-size: 2.2rem;
+        color: #1f4e8c;
+        margin-bottom: 10px;
+    }
+
+    .titulo-general p {
+        color: #555;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    /* DOCUMENTO */
+    .documento {
+        background: #ffffff;
+        padding: 45px;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        border-left: 6px solid #1f4e8c;
+        margin-bottom: 35px;
+    }
+
+    h2 {
+        margin-top: 0;
+        color: #1f4e8c;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    p, li {
+        line-height: 1.7;
+        color: #444;
+    }
+
+    ol {
+        padding-left: 20px;
+    }
+
+    .nota {
+        background: #eef3fb;
+        padding: 15px 18px;
+        border-radius: 8px;
+        margin-top: 20px;
+        font-size: 0.95rem;
+    }
+
+    .enlace-externo {
+        margin-top: 20px;
+        padding: 18px;
+        background: #f4f7fc;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .enlace-externo a {
+        text-decoration: none;
+        color: #1f4e8c;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .enlace-externo a:hover {
+        text-decoration: underline;
+    }
+
+    code {
+        background: #f4f4f4;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+        .documento {
+            padding: 30px;
+        }
+    }
+    /* CONTENEDOR DE IMAGEN */
+.imagen-placeholder {
+    text-align: center;
+    margin: 25px 0;
+}
+
+/* IMÁGENES DEL MANUAL */
+.imagen-placeholder img {
+    max-width: 100%;
+    width: 100%;
+    max-width: 750px;        /* tamaño máximo visual */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.icono-pequeno {
+    display: block;
+    margin: 20px auto;
+    width: 12px;      /* tamaño del icono */
+    height: auto;
+}
+/* CONTENEDOR PEQUEÑO PARA ICONOS */
+.icono-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.icono-container img {
+    width: 80px;   /* tamaño real del icono */
+    height: auto;
+}
+
+
+
+
+    main {
+        max-width: 850px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="wrapper"><main>
+
+<div style="margin-bottom: 20px; text-align: left;">
+    <a href="inicio.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; font-weight: 600; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px 16px; background: #0f3a68; border: 1px solid #0f3a68; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background 0.2s, transform 0.2s;" onmouseover="this.style.background='#2c5c92'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#0f3a68'; this.style.transform='none';">
+        &#8592; Volver al Menú Principal
+    </a>
+</div>
+
+<section class="documento">
+<h1>🧾 Botones de Control de Documentos y Facturas</h1>
+<p>Justo después del carrito encontrarás <strong>dos botones principales</strong>:</p>
+<ul>
+    <li>📄 <strong>Documentos (Albaranes)</strong></li>
+    <li>🧾 <strong>Facturas</strong></li>
+</ul>
+<img src="../assets/images/controles.jpg" alt="Artículos MAIS" >
+<p>Estos apartados permiten <strong>consultar, filtrar y visualizar</strong> todos los documentos generados.</p>
+<div class="tip">EL PRIMERO ES DE DOCUMENTOS (ALBARANES) Y EL SEGUNDO DE FACTURAS.</div>
+
+<h3>🔍 ¿Qué se puede hacer aquí?</h3>
+<ul>
+    <li>Ver y filtrar <strong>documentos</strong> y <strong>facturas</strong> ya realizadas.</li>
+    <li>Haciendo <strong>clic derecho</strong> sobre un documento:
+        <ul>
+            <li>▶️ <strong>Ver factura</strong> o <strong>Ver documento</strong></li>
+            <li>🖨️ <strong>Ver con formato</strong>, eligiendo el tipo de formato de impresión</li>
+        </ul>
+    </li>
+</ul>
+<div class="tip">⚠️ Para visualizar documentos en estos apartados, <strong>primero es necesario</strong> haber creado una venta, compra o movimiento desde el <strong>carrito</strong>, y haberla <strong>facturado</strong>.</div>
+
+<h3>🧾 Cómo hacer una <em>Factura Rectificativa</em></h3>
+
+<h4>🗂️ Selección del albarán</h4>
+<ol>
+    <li>Entramos en el listado de <strong>Documentos (Albaranes)</strong>.</li>
+    <li>Filtramos por la <strong>serie correspondiente</strong> (ej.: <em>Ventas contado</em>, <em>Facturas simplificadas</em>, etc.).</li>
+    <li>Seleccionamos el <strong>albarán que queremos rectificar</strong>.</li>
+</ol>
+
+<h4>🔄 Generar el documento rectificativo</h4>
+<ul>
+    <li>Hacemos <strong>clic derecho</strong> sobre el albarán elegido.</li>
+    <li>Seleccionamos <strong>“Generar documento rectificativo”</strong>.</li>
+</ul>
+
+<h4>📝 Indicar el motivo</h4>
+<p>El sistema solicitará que introduzcas el <strong>motivo de la rectificación</strong>. Es obligatorio rellenarlo de forma clara y correcta (requisito legal).</p>
+
+<h4>🧾 Facturar el documento rectificativo</h4>
+<ul>
+    <li>El sistema generará un <strong>nuevo documento en color rojo</strong>.</li>
+    <li>Pulsamos <strong>Facturar</strong> para emitir la factura rectificativa.</li>
+    <li>Una vez facturada, aparecerá en su <strong>serie correspondiente</strong>.</li>
+</ul>
+
+<div class="tip">⚠️ Asegúrate de que el <strong>motivo de la rectificación</strong> esté correctamente descrito. Comprueba que estás trabajando en la <strong>serie correcta</strong> para evitar errores de trazabilidad. Una factura rectificativa siempre debe quedar <strong>vinculada al documento original</strong>.</div>
+
+<h3>💡 Tips importantes</h3>
+<ul>
+    <li>Revisa siempre el <strong>tipo de IVA</strong> al registrar artículos.</li>
+    <li>Para artículos de empresa, el descuento se aplica <strong>automáticamente</strong> (no modificar manualmente).</li>
+    <li>Mantén actualizado el <strong>stock</strong> desde los albaranes para garantizar que los listados reflejen datos reales.</li>
+</ul>
+</section>

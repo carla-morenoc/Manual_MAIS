@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inicio MAIS</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="assets/css/site.css">
+<style>
+:root {
+    --primary: #4a90e2;
+    --secondary: #6a11cb;
+    --accent: #00f5ff;
+    --glass: rgba(255,255,255,0.12);
+    --radius: 18px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    overflow-x:hidden;
+    padding: 20px 0;
+    background: linear-gradient(-45deg, #3692fa, #4396da, #1b71e0, #365cc7) !important;
+    background-size: 400% 400% !important;
+    animation: gradientMove 12s ease infinite !important;
+}
+
+/* Fondo animado */
+@keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* Partículas */
+body::before, body::after{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%);
+    border-radius:50%;
+    animation: float 8s infinite ease-in-out;
+}
+
+body::before{
+    top:-100px;
+    left:-100px;
+}
+
+body::after{
+    bottom:-100px;
+    right:-100px;
+    animation-delay:4s;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(30px);}
+}
+
+/* Contenedor principal */
+.container{
+    position:relative;
+    text-align:center;
+    padding:50px 40px;
+    background: var(--glass);
+    border-radius: var(--radius);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    color:white;
+    width:min(95%, 520px);
+    max-width:520px;
+    animation: fadeInUp 1.2s ease;
+}
+
+.wrapper{
+    width:min(95%, 520px);
+    max-width:520px;
+    margin-top: 24px;
+    padding: 22px 24px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 22px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+    color: white;
+    text-align: center;
+}
+
+.wrapper h1{
+    font-size: 1.35rem;
+    line-height: 1.45;
+    margin: 0 0 16px;
+}
+
+.wrapper div{
+    margin-top: 8px;
+}
+
+/* Animación entrada */
+@keyframes fadeInUp{
+    from{opacity:0; transform:translateY(40px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+h1{
+    font-size:2.6rem;
+    font-weight:700;
+    margin-bottom:15px;
+    letter-spacing:1px;
+}
+
+p{
+    opacity:0.9;
+    margin-bottom:35px;
+    font-size:1rem;
+}
+
+/* Botón moderno */
+.btn{
+    position:relative;
+    display:inline-block;
+    padding:14px 35px;
+    font-size:1.1rem;
+    font-weight:600;
+    border-radius: 50px;
+    text-decoration:none;
+    color:white;
+    background: linear-gradient(90deg, var(--accent), var(--primary));
+    overflow:hidden;
+    transition:0.4s ease;
+    box-shadow:0 0 1px rgba(0,255,255,0.5);
+    
+}
+
+.btn:hover{
+    transform:translateY(-4px) scale(1.05);
+    box-shadow:0 0 25px rgba(0,255,255,0.8);
+}
+
+/* Efecto ripple */
+.btn::after{
+    content:"";
+    position:absolute;
+    width:0;
+    height:0;
+    background:rgba(255,255,255,0.4);
+    border-radius:50%;
+    transform:translate(-50%, -50%);
+    top:50%;
+    left:50%;
+    opacity:0;
+    transition:width 0.5s ease, height 0.5s ease, opacity 0.6s ease;
+}
+
+.btn:active::after{
+    width:200%;
+    height:200%;
+    opacity:0;
+    transition:0s;
+}
+
+@media(max-width:600px){
+    body { padding: 16px 0; }
+    h1{font-size:2rem;}
+    .container{padding:32px 20px; width:92%;}
+    .wrapper{padding:18px 18px; width:92%;}
+    .btn{width:100%; max-width:100%; padding:14px 20px;}
+    .btn-ghost{width:100%; padding:14px 20px;}
+    p{margin-bottom:24px;}
+    .wrapper h1{font-size:1.2rem;}
+}
+
+@media(max-width:380px){
+    h1{font-size:1.8rem;}
+    .container{padding:28px 16px;}
+    .btn{padding:12px 18px;}
+}
+
+/* Estilos para el botón que debe quedar como el primer contenedor */
+.btn-ghost{
+    border: none;
+    background: var(--glass);
+    color: white;
+    padding:12px 30px;
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    cursor: pointer;
+    font-weight:600;
+}
+.btn-ghost:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+
+/* Input estilo agradable */
+input.input-empresa{
+    width:100%;
+    padding:12px 14px;
+    margin:10px 0 18px 0;
+    border-radius:12px;
+    border: none;
+    background: rgba(255,255,255,0.06);
+    color: white;
+    outline: none;
+}
+.btnlink{
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+input.input-empresa::placeholder{ color: rgba(255,255,255,0.6); }
+</style>
+</head>
+
+<body>
+
+
+<div class="container" style="margin-top: 20px;">
+    <h1>¿Cuál es tu empresa?</h1>
+    <p>Escribe tu empresa para continuar</p>
+    <label for="empresa">Empresa:</label>
+    <input type="text" id="empresa" class="input-empresa" name="empresa" placeholder="Escribe el nombre de tu empresa">
+    <button class="btn btn-ghost" onclick="postempresa()">Seleccionar</button>
+</div>
+
+<script>
+const POST_URL = "/BACKEND/post_empresa.php";
+
+function postempresa() {
+
+    const input = document.getElementById("empresa");
+    const empresa = input.value.trim();
+
+    if (empresa === "") {
+        alert("Introduce el nombre de la empresa");
+        input.focus();
+        return;
+    }
+
+    const fd = new FormData();
+    fd.append("empresa", empresa);
+
+    fetch(POST_URL, {
+        method: "POST",
+        body: fd
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        console.log("Respuesta del servidor:", data);
+
+        if (data.success) {
+
+            // Guardar la empresa para usarla después si hace falta
+            localStorage.setItem("empresa", empresa);
+
+            // Cambiar de página
+            window.location.href = "pages/inicio.html";
+
+        } else {
+
+            alert(data.error || "Ha ocurrido un error.");
+
+        }
+
+    })
+    .catch(error => {
+
+        console.error("ERROR:", error);
+        alert("Error al conectar con el servidor.");
+
+    });
+
+}
+</script>
+
+<!-- <div class="wrapper" style="margin-top: 20px;">
+    <h1 style="text-align: center; margin-top: 20px; color: white;">
+        Este manual estará  inutilizado. Porfavor redirijase a la nueva version, pinche en el link:
+        </h1>
+    <div style="text-align:center; margin-top:18px;">
+        <a href="https://maisformacion.com" target="_blank" class="btnlink">Ir a la nueva versión</a>
+    </div> -->
+    
+</div>
+
+</body>
+</html>

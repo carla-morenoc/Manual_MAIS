@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uso del MAIS</title>
+
+    <link rel="stylesheet" href="../assets/css/site.css">
+<style>
+
+    body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: #f2f5f9;
+        margin: 0;
+        padding: 50px 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .wrapper {
+        max-width: 850px;
+        width: 100%;
+    }
+
+    /* TÍTULO GENERAL FUERA DEL SECTION */
+    .titulo-general {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .titulo-general h1 {
+        font-size: 2.2rem;
+        color: #1f4e8c;
+        margin-bottom: 10px;
+    }
+
+    .titulo-general p {
+        color: #555;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    /* DOCUMENTO */
+    .documento {
+        background: #ffffff;
+        padding: 45px;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        border-left: 6px solid #1f4e8c;
+        margin-bottom: 35px;
+    }
+
+    h2 {
+        margin-top: 0;
+        color: #1f4e8c;
+    }
+
+    h3 {
+        margin-top: 30px;
+        color: #333;
+    }
+
+    p, li {
+        line-height: 1.7;
+        color: #444;
+    }
+
+    ol {
+        padding-left: 20px;
+    }
+
+    .nota {
+        background: #eef3fb;
+        padding: 15px 18px;
+        border-radius: 8px;
+        margin-top: 20px;
+        font-size: 0.95rem;
+    }
+
+    .enlace-externo {
+        margin-top: 20px;
+        padding: 18px;
+        background: #f4f7fc;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .enlace-externo a {
+        text-decoration: none;
+        color: #1f4e8c;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .enlace-externo a:hover {
+        text-decoration: underline;
+    }
+
+    code {
+        background: #f4f4f4;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+        .documento {
+            padding: 30px;
+        }
+    }
+    /* CONTENEDOR DE IMAGEN */
+.imagen-placeholder {
+    text-align: center;
+    margin: 25px 0;
+}
+
+/* IMÁGENES DEL MANUAL */
+.imagen-placeholder img {
+    max-width: 100%;
+    width: 100%;
+    max-width: 750px;        /* tamaño máximo visual */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.icono-pequeno {
+    display: block;
+    margin: 20px auto;
+    width: 12px;      /* tamaño del icono */
+    height: auto;
+}
+/* CONTENEDOR PEQUEÑO PARA ICONOS */
+.icono-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.icono-container img {
+    width: 80px;   /* tamaño real del icono */
+    height: auto;
+}
+
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+
+
+    main {
+        max-width: 850px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="wrapper"><main>
+    
+    
+<div style="margin-bottom: 20px; text-align: left;">
+    <a href="inicio.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; font-weight: 600; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px 16px; background: #0f3a68; border: 1px solid #0f3a68; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background 0.2s, transform 0.2s;" onmouseover="this.style.background='#2c5c92'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#0f3a68'; this.style.transform='none';">
+        &#8592; Volver al Menú Principal
+    </a>
+</div>
+
+<section class="documento">
+ <h1>📚 Botón de Maestros</h1>
+
+<img src="../assets/images/maestros.jpg" alt="Botón de Maestros" >
+
+<p>Dentro de este apartado podremos acceder a:</p>
+<ul>
+    <li>👥 <strong>Clientes</strong></li>
+    <li>🧾 <strong>Proveedores</strong></li>
+    <li>🚚 <strong>Formas de envío</strong></li>
+    <li>🏦 <strong>Bancos propios</strong> <em>(Si no aparece ninguno, consultar con la empresa MAIS)</em></li>
+</ul>
+
+<p>Desde aquí también se pueden <strong>crear</strong> clientes, proveedores y otros elementos maestros.</p>
+
+<h3>📦 Cómo hacer un Inventario</h3>
+<img src="../assets/images/inventario1.jpg" alt="Crear Inventario"class="img" >
+
+<p>La ruta para crear o ajustar inventarios es:</p>
+<div class="tip">👉 <strong>MAESTROS → ALMACÉN → N. INVENTARIOS</strong></div>
+<p>También es posible colocar un <strong>acceso directo</strong> en el panel general para ir más rápido.</p>
+
+<h3>🗂️ Acceso a Inventarios</h3>
+<p>Al entrar, veremos una ventana como esta:</p>
+<img src="../assets/images/inventario2.jpg" alt="Ventana de Inventarios" >
+
+<h3>Campos principales:</h3>
+<ul>
+    <li><strong>Cod. Almacén:</strong> Por defecto será <strong>00001</strong> si trabajamos con un almacén general. <em>(Si existe más de un almacén, cada uno tendrá su propio código.)</em></li>
+    <li><strong>Inventario:</strong> Pulsamos <strong>F2</strong> para ver inventarios existentes y asignar el <strong>siguiente número automático</strong>.</li>
+    <li><strong>Descripción, Tipo y Dependiente:</strong> Rellenamos estos campos según corresponda.</li>
+</ul>
+
+<h3>📥 Añadir artículos al inventario</h3>
+<p>En <strong>Cod. Artículo</strong>:</p>
+<ol>
+    <li>Pulsamos <strong>F2</strong> para ver todos los artículos del MAIS.</li>
+    <li>Abajo veremos las <strong>unidades actuales en stock</strong>.</li>
+    <li>En la casilla <strong>Recuento</strong>, ponemos las unidades que queremos <strong>sumar</strong> al inventario (esto sirve para ajustar el stock real).</li>
+    <li>Pulsamos <strong>Añadir</strong>.</li>
+    <li>El sistema pedirá un <strong>precio medio de compra</strong>:
+        <ul>
+            <li>Normalmente aparecerá una ventana recomendando la <strong>tarifa de venta actual</strong>.</li>
+            <li>Debemos poner <strong>la misma tarifa</strong>.</li>
+        </ul>
+    </li>
+</ol>
+
+<h3>✔️ Finalizar el Inventario</h3>
+<p>Cuando hayamos introducido todas las líneas (todos los artículos):</p>
+<ul>
+    <li>Pulsamos <strong>Aceptar</strong></li>
+    <li>El sistema <strong>sumará</strong> las unidades indicadas al stock</li>
+</ul>
+<div class="tip">👉 Este proceso actualiza automáticamente el inventario real del almacén.</div>
+</section>
