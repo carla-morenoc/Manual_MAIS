@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, observerOptions);
 
     // Select all elements that could potentially be animated
-    const selectors = '.content-row, .doc-block, header, footer, .card, .section-title, .titulo-general, .status-text, h2, h3, h4, p, ul, ol, .tip, .nota, .button-group, .enlace-externo';
+    const selectors = '.content-row, .doc-block, header, footer, .card, .section-title, .titulo-general, .status-text, h1, h2, h3, h4, p, ul, ol, .tip, .nota, .button-group, .enlace-externo';
     const allElements = Array.from(document.querySelectorAll(selectors));
 
     // Filter out children of already animated containers to avoid double-animations
