@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         messageDiv.appendChild(avatarDiv);
         messageDiv.appendChild(contentDiv);
-        
+
         chatMessages.appendChild(messageDiv);
         scrollToBottom();
     }
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         messageDiv.appendChild(avatarDiv);
         messageDiv.appendChild(contentDiv);
-        
+
         chatMessages.appendChild(messageDiv);
         scrollToBottom();
     }
@@ -68,12 +68,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function enviarMensajeAegis(texto) {
+        const BASE_URL = 'https://footing-jellied-glamorous.ngrok-free.dev';
+        
         try {
-            const response = await fetch('https://api-mais-ia.loca.lt/api/v1/chat/query', {
+            const response = await fetch(`${BASE_URL}/api/v1/chat/query`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Bypass-Tunnel-Reminder': 'true'
+                    'Bypass-Tunnel-Reminder': 'true',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     query: texto,
