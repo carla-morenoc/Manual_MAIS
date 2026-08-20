@@ -7,8 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const pdfFrame = document.getElementById("pdfFrame");
     const pdfTitle = document.getElementById("pdfTitle");
     const closePdfBtn = document.getElementById("closePdfBtn");
+    
+    const prevPageBtn = document.getElementById("prevPageBtn");
+    const nextPageBtn = document.getElementById("nextPageBtn");
+    const pageIndicator = document.getElementById("pageIndicator");
 
     const BASE_URL = 'https://footing-jellied-glamorous.ngrok-free.dev';
+
+    // Variables de estado del visor de PDF
+    let currentViewerDocId = null;
+    let currentViewerFilename = "";
+    let currentViewerPage = 1;
 
     function addMessage(text, sender, sources = []) {
         const messageDiv = document.createElement("div");
@@ -173,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!response.ok) {
                 console.error("Error en la respuesta del servidor:", response.statusText);
-                return { answer: "Lo siento, ha ocurrido un error al conectar con el servidor de MAIS_IA.", sources: [] };
+                return { answer: "Lo siento, ha ocurrido un error al conectar con el servidor de Maisito.", sources: [] };
             }
 
             const data = await response.json();
@@ -189,15 +198,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Abrir visor de PDF
     function openPdfViewer(docId, filename, page) {
-        pdfTitle.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${filename} (Pág. ${page})`;
-        pdfFrame.src = `${BASE_URL}/api/v1/documents/${docId}/file#page=${page}`;
+        currentViewerDocId = docId;
+        currentViewerFilename = filename;
+        currentViewerPage = parseInt(page, 10) || 1;
+
+        pdfTitle.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${filename}`;
+        pageIndicator.textContent = `Pág. ${currentViewerPage}`;
+        
+        // Hacemos que se cargue la URL limpia con parámetros para ocultar la barra por defecto del navegador (toolbar=0)
+        // Usamos un timestamp (?t=...) para obligar al navegador a recargar y aplicar el salto de página si ya estaba cargado
+        pdfFrame.src = `${BASE_URL}/api/v1/documents/${docId}/file?t=${Date.now()}#page=${currentViewerPage}&toolbar=0&navpanes=0&view=FitH`;
+        
         mainLayout.classList.add("pdf-open");
+    }
+
+    // Navegar páginas en el visor de PDF
+    function navigatePdfPage(direction) {
+        if (!currentViewerDocId) return;
+
+        let newPage = currentViewerPage + direction;
+        if (newPage < 1) newPage = 1;
+
+        currentViewerPage = newPage;
+        pageIndicator.textContent = `Pág. ${currentViewerPage}`;
+        
+        // Forzar recarga con el nuevo hash de página
+        pdfFrame.src = `${BASE_URL}/api/v1/documents/${currentViewerDocId}/file?t=${Date.now()}#page=${currentViewerPage}&toolbar=0&navpanes=0&view=FitH`;
     }
 
     // Cerrar visor de PDF
     function closePdfViewer() {
         mainLayout.classList.remove("pdf-open");
         pdfFrame.src = "";
+        currentViewerDocId = null;
     }
 
     async function handleSend() {
@@ -237,4 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     closePdfBtn.addEventListener("click", closePdfViewer);
+    
+    // Eventos de controles de página del visor de PDF
+    prevPageBtn.addEventListener("click", () => navigatePdfPage(-1));
+    nextPageBtn.addEventListener("click", () => navigatePdfPage(1));
 });

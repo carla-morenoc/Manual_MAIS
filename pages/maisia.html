@@ -333,6 +333,34 @@
         color: #000;
     }
 
+    .pdf-page-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #111111;
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        font-size: 0.9rem;
+    }
+
+    .btn-page-control {
+        background: transparent;
+        border: none;
+        color: var(--text-light);
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+        padding: 2px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-page-control:hover {
+        color: #fff;
+    }
+
     #pdfFrame {
         flex: 1;
         width: 100%;
@@ -429,6 +457,11 @@
             <span id="pdfTitle">
                 <i class="fa-solid fa-file-pdf"></i> Visor de PDF
             </span>
+            <div class="pdf-page-controls">
+                <button id="prevPageBtn" class="btn-page-control"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="pageIndicator">Pág. 1</span>
+                <button id="nextPageBtn" class="btn-page-control"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
             <button id="closePdfBtn" class="btn-close-pdf">
                 <i class="fa-solid fa-xmark"></i> Cerrar
             </button>
