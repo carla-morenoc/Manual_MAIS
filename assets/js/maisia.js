@@ -72,7 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch('https://api-mais-ia.loca.lt/api/v1/chat/query', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Bypass-Tunnel-Reminder': 'true'
                 },
                 body: JSON.stringify({
                     query: texto,
