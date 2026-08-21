@@ -44,8 +44,8 @@ body{
     padding:30px 20px;
     background: transparent;
     color:white;
-    width:min(95%, 620px);
-    max-width:620px;
+    width:min(95%, 680px);
+    max-width:680px;
     animation: fadeInUp 1s ease;
     z-index: 10;
 }
@@ -56,17 +56,18 @@ body{
     to{opacity:1; transform:translateY(0);}
 }
 
-/* 🎥 CONTENEDOR DE VÍDEO GRANDE DESDE EL PRINCIPIO Y ZOOM CINEMÁTICO */
+/* 🎥 CONTENEDOR DE VÍDEO (67% DEL ANCHO DE PANTALLA) Y ZOOM ACERCÁNDOSE */
 .video-wrapper {
     position: relative;
-    width: 480px; /* Tamaño grande de primeras en pantalla */
-    height: 300px;
-    max-width: 90vw;
-    margin: 0 auto 25px auto;
+    width: 67vw; /* Ocupa aproximadamente el 67% de la pantalla */
+    max-width: 850px;
+    min-width: 280px;
+    aspect-ratio: 16/10;
+    margin: 0 auto;
     border-radius: 12px;
     overflow: hidden;
-    /* Transición suave para el zoom cinemático */
-    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.2s ease;
+    /* Transición suave para el acercamiento cinemático y desvanecimiento */
+    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
     z-index: 5;
 }
 
@@ -77,7 +78,7 @@ body{
     display: block;
 }
 
-/* Difuminado radial para fusionar el fondo gris del vídeo con el negro de la página */
+/* Difuminado radial para fusionar el fondo del vídeo con el negro de la página */
 .video-vignette {
     position: absolute;
     top: 0;
@@ -88,18 +89,24 @@ body{
     pointer-events: none;
 }
 
-/* Efecto Zoom: se agranda y acerca la cámara aún más al acabar el video */
-.video-wrapper.zoomed {
-    transform: scale(2.4) translateY(12%);
-    opacity: 0.85; /* Se mantiene visible de fondo con contraste */
+/* Se va acercando (zoom progresivo en la fase final) */
+.video-wrapper.zooming {
+    transform: scale(1.6);
+}
+
+/* Se oculta del todo tras finalizar */
+.video-wrapper.hidden {
+    opacity: 0;
+    transform: scale(2.4); /* Zoom final al desvanecerse */
     pointer-events: none;
 }
 
-/* 📝 CONTENEDOR DE CONTENIDO HTML (Textos y formulario) */
+/* 📝 CONTENEDOR DE CONTENIDO HTML (Oculto inicialmente) */
 #login-content {
+    display: none;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 #login-content.visible {
@@ -185,6 +192,7 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
     .container{padding:32px 20px; width:92%;}
     .btn-ghost{width:100%; padding:14px 20px;}
     h1 { font-size: 2rem; }
+    .video-wrapper { width: 90vw; }
 }
 </style>
 </head>
@@ -193,16 +201,16 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
 
 <div class="container" id="mainContainer">
     
-    <!-- Contenedor del Vídeo sin loop inicial y grande desde el principio -->
+    <!-- Contenedor del Vídeo sin loop y grande de primeras (67% de ancho) -->
     <div class="video-wrapper" id="videoWrapper">
         <video id="loginVideo" autoplay muted playsinline>
-            <source src="assets/videos/animacionindex2.mp4" type="video/mp4">
+            <source src="assets/videos/animacionindex.mp4" type="video/mp4">
             Tu navegador no soporta el formato de vídeo.
         </video>
         <div class="video-vignette"></div>
     </div>
 
-    <!-- Contenido que aparece del tirón al acabar el vídeo -->
+    <!-- Contenido HTML del index (oculto por defecto durante la reproducción) -->
     <div id="login-content">
         <h1>¿Cuál es tu empresa?</h1>
         <p>Escribe tu empresa para continuar...</p>
@@ -216,40 +224,57 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
 </div>
 
 <script>
-// Iniciar animación y configurar el callback al terminar el vídeo
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.getElementById("loginVideo");
+    const videoWrapper = document.getElementById("videoWrapper");
+    const content = document.getElementById("login-content");
+    const input = document.getElementById("empresa");
+
     if (video) {
-        // Aseguramos que NO esté en bucle
+        // Aseguramos que se reproduce una sola vez
         video.loop = false;
-        
-        video.addEventListener("ended", () => {
-            // 1. Activar el zoom del vídeo para acercar la pantalla del portátil
-            const videoWrapper = document.getElementById("videoWrapper");
-            if (videoWrapper) {
-                videoWrapper.classList.add("zoomed");
-            }
-            
-            // 2. Mostrar todo el contenido HTML (textos y formulario) del tirón
-            const content = document.getElementById("login-content");
-            if (content) {
-                content.classList.add("visible");
-            }
-            
-            // 3. Poner el foco en la entrada de texto
-            const input = document.getElementById("empresa");
-            if (input) {
-                input.focus();
+        let zoomTriggered = false;
+
+        // Escuchar el progreso del vídeo
+        video.addEventListener("timeupdate", () => {
+            // Empezamos el zoom de acercamiento 1.5 segundos antes de que termine el vídeo
+            if (video.duration && video.currentTime >= video.duration - 1.5) {
+                if (!zoomTriggered) {
+                    zoomTriggered = true;
+                    videoWrapper.classList.add("zooming");
+                }
             }
         });
-        
+
+        // Callback cuando termine el vídeo del todo
+        video.addEventListener("ended", () => {
+            // 1. Quitar el zoom temporal y desvanecer el vídeo del todo (hacia un zoom final grande)
+            videoWrapper.classList.remove("zooming");
+            videoWrapper.classList.add("hidden");
+            
+            // Esperar a que la transición de desvanecimiento termine (800ms) para quitarlo físicamente
+            setTimeout(() => {
+                videoWrapper.style.display = "none";
+                
+                // 2. Mostrar las cosas del index (textos e input) del tirón
+                content.style.display = "block";
+                content.offsetHeight; // forzar reflujo del DOM para activar la transición CSS
+                content.classList.add("visible");
+                
+                // 3. Poner el foco en el input para comodidad del usuario
+                if (input) {
+                    input.focus();
+                }
+            }, 800);
+        });
+
         video.play().catch(error => {
             console.log("Auto-play prevenido", error);
         });
     } else {
         // Fallback si por alguna razón falla el vídeo
-        const content = document.getElementById("login-content");
-        if (content) content.classList.add("visible");
+        content.style.display = "block";
+        content.classList.add("visible");
     }
 });
 
