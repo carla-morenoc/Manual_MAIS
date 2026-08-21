@@ -54,163 +54,20 @@ body{
     to{opacity:1; transform:translateY(0);}
 }
 
-/* 💻 ANIMACIÓN REALISTA DEL PORTÁTIL Y MANOS TECLEANDO (CSS PURO) */
-.laptop-animation {
+/* 🎥 CONTENEDOR DE VÍDEO CON ESTILO PREMIUM */
+.video-container {
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
 }
 
-.laptop {
-    position: relative;
-    width: 180px;
-    height: 110px;
-}
-
-/* Pantalla del portátil */
-.screen {
-    width: 120px;
-    height: 72px;
-    background: #111;
-    border: 3.5px solid #d1d5db;
-    border-radius: 6px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 6px;
-    box-shadow: 0 4px 12px rgba(255,255,255,0.05);
-}
-
-.code-lines {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    width: 90%;
-}
-
-.line {
-    height: 3px;
-    background: var(--accent);
-    border-radius: 2px;
-    opacity: 0;
-    animation: type-line 1.2s infinite alternate;
-}
-.line.l1 { width: 85%; animation-delay: 0.1s; }
-.line.l2 { width: 60%; animation-delay: 0.4s; }
-.line.l3 { width: 75%; animation-delay: 0.7s; }
-
-@keyframes type-line {
-    from { opacity: 0; }
-    to { opacity: 0.8; }
-}
-
-/* Base del teclado */
-.base {
-    width: 156px;
-    height: 10px;
-    background: #9ca3af;
-    border-radius: 0 0 8px 8px;
-    position: absolute;
-    bottom: 24px;
-    left: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-}
-
-.base::after {
-    content: '';
-    position: absolute;
-    width: 28px;
-    height: 3px;
-    background: #4b5563;
-    bottom: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 1.5px;
-}
-
-/* Perspectiva 3D del teclado */
-.keyboard-area {
-    position: absolute;
-    width: 90px;
-    height: 30px;
-    bottom: 12px;
-    left: 45px;
-    perspective: 50px;
-}
-
-.keyboard-grid {
-    width: 100%;
-    height: 100%;
-    background: #374151;
-    transform: rotateX(45deg);
-    border-radius: 3px;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 2px;
-    padding: 2px;
-}
-
-.key {
-    background: #1f2937;
-    border-radius: 1px;
-}
-
-/* Animación de pulsación de teclas al teclear */
-.typing .key:nth-child(3n) { animation: key-press 0.15s infinite alternate; }
-.typing .key:nth-child(3n+1) { animation: key-press 0.15s infinite alternate 0.04s; }
-.typing .key:nth-child(3n+2) { animation: key-press 0.15s infinite alternate 0.08s; }
-
-@keyframes key-press {
-    from { background: #1f2937; }
-    to { background: var(--accent); }
-}
-
-/* Contenedor de manos y dedos */
-.hands-container {
-    position: absolute;
-    width: 110px;
-    height: 35px;
-    bottom: 0px;
-    left: 35px;
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-    z-index: 10;
-}
-
-.hand {
-    display: flex;
-    gap: 2.5px;
-    align-items: flex-end;
-}
-
-.finger {
-    width: 6px;
-    height: 18px;
-    background: #fbcfe8; /* Color piel */
-    border-radius: 3px 3px 0 0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-/* Animación de tecleo independiente para cada uno de los dedos */
-.typing .lf1 { animation: finger-tap 0.13s infinite alternate; }
-.typing .lf2 { animation: finger-tap 0.16s infinite alternate 0.03s; }
-.typing .lf3 { animation: finger-tap 0.12s infinite alternate 0.06s; }
-.typing .lf4 { animation: finger-tap 0.15s infinite alternate 0.02s; }
-
-.typing .rf1 { animation: finger-tap 0.14s infinite alternate 0.04s; }
-.typing .rf2 { animation: finger-tap 0.17s infinite alternate 0.01s; }
-.typing .rf3 { animation: finger-tap 0.13s infinite alternate 0.05s; }
-.typing .rf4 { animation: finger-tap 0.15s infinite alternate 0.02s; }
-
-@keyframes finger-tap {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-5px); }
+.video-container video {
+    width: 280px;      /* Tamaño óptimo de visualización */
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(255,255,255,0.06);
+    border: 1px solid #1a1a1a;
+    background: #000;
 }
 
 /* 📝 ESTILOS ORIGINALES DE TEXTO (Poppins, Blanco, Centrado) */
@@ -315,41 +172,12 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
 
 <div class="container">
     
-    <!-- Contenedor de la animación del ordenador y manos -->
-    <div class="laptop-animation">
-        <div class="laptop">
-            <div class="screen">
-                <div class="code-lines">
-                    <div class="line l1"></div>
-                    <div class="line l2"></div>
-                    <div class="line l3"></div>
-                </div>
-            </div>
-            <div class="base"></div>
-            <!-- Área tridimensional del teclado -->
-            <div class="keyboard-area" id="keyboardArea">
-                <div class="keyboard-grid">
-                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
-                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
-                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
-                </div>
-            </div>
-            <!-- Manos con dedos independientes tecleando -->
-            <div class="hands-container typing" id="handsContainer">
-                <div class="hand left-hand">
-                    <div class="finger lf1"></div>
-                    <div class="finger lf2"></div>
-                    <div class="finger lf3"></div>
-                    <div class="finger lf4"></div>
-                </div>
-                <div class="hand right-hand">
-                    <div class="finger rf1"></div>
-                    <div class="finger rf2"></div>
-                    <div class="finger rf3"></div>
-                    <div class="finger rf4"></div>
-                </div>
-            </div>
-        </div>
+    <!-- Contenedor del Vídeo subido animacionindex.mp4 -->
+    <div class="video-container">
+        <video id="loginVideo" autoplay loop muted playsinline>
+            <source src="assets/videos/animacionindex.mp4" type="video/mp4">
+            Tu navegador no soporta el formato de vídeo.
+        </video>
     </div>
 
     <!-- Título y Subtítulo originales -->
@@ -391,12 +219,13 @@ function typeSubheader() {
         setTimeout(typeSubheader, speed);
     } else {
         // Al terminar de escribir ambos textos:
-        // 1. Detener la animación de las manos tecleando
-        document.getElementById("handsContainer").classList.remove("typing");
-        // 2. Detener la iluminación del teclado
-        document.getElementById("keyboardArea").classList.remove("typing");
+        // 1. Pausar el vídeo en el momento exacto en que termina de escribir (opcional, para dar realismo)
+        const video = document.getElementById("loginVideo");
+        if (video) {
+            video.pause();
+        }
         
-        // 3. Desplegar el formulario de acceso
+        // 2. Desplegar el formulario de acceso
         const form = document.getElementById("form-container");
         form.classList.add("visible");
         document.getElementById("empresa").focus();
@@ -404,7 +233,16 @@ function typeSubheader() {
 }
 
 // Iniciar animación al cargar la página
-document.addEventListener("DOMContentLoaded", typeHeader);
+document.addEventListener("DOMContentLoaded", () => {
+    // Asegurar que el vídeo se reproduzca al iniciar la escritura
+    const video = document.getElementById("loginVideo");
+    if (video) {
+        video.play().catch(error => {
+            console.log("Auto-play prevenido por el navegador, esperando interacción.", error);
+        });
+    }
+    typeHeader();
+});
 
 const POST_URL = "BACKEND/post_empresa.php";
 
