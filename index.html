@@ -67,7 +67,7 @@ body{
     border-radius: 12px;
     overflow: hidden;
     /* Transición suave para el acercamiento cinemático y desvanecimiento */
-    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
+    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
     z-index: 5;
 }
 
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
             videoWrapper.classList.remove("zooming");
             videoWrapper.classList.add("hidden");
             
-            // Esperar a que la transición de desvanecimiento termine (800ms) para quitarlo físicamente
+            // Esperar a que la transición de desvanecimiento termine (400ms) para quitarlo físicamente
             setTimeout(() => {
                 videoWrapper.style.display = "none";
                 
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (input) {
                     input.focus();
                 }
-            }, 800);
+            }, 400);
         });
 
         video.play().catch(error => {
