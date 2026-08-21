@@ -40,7 +40,7 @@ body{
 .container{
     position:relative;
     text-align:center;
-    padding:30px 40px;
+    padding:30px 20px;
     background: transparent;
     color:white;
     width:min(95%, 540px);
@@ -54,7 +54,7 @@ body{
     to{opacity:1; transform:translateY(0);}
 }
 
-/* 💻 ANIMACIÓN DEL PORTÁTIL Y MANOS (CSS PURO) */
+/* 💻 ANIMACIÓN REALISTA DEL PORTÁTIL Y MANOS TECLEANDO (CSS PURO) */
 .laptop-animation {
     display: flex;
     justify-content: center;
@@ -63,15 +63,16 @@ body{
 
 .laptop {
     position: relative;
-    width: 140px;
-    height: 90px;
+    width: 180px;
+    height: 110px;
 }
 
+/* Pantalla del portátil */
 .screen {
-    width: 100px;
-    height: 60px;
+    width: 120px;
+    height: 72px;
     background: #111;
-    border: 3px solid #d1d5db;
+    border: 3.5px solid #d1d5db;
     border-radius: 6px;
     margin: 0 auto;
     position: relative;
@@ -81,7 +82,7 @@ body{
     justify-content: center;
     align-items: center;
     padding: 6px;
-    box-shadow: 0 4px 10px rgba(255,255,255,0.05);
+    box-shadow: 0 4px 12px rgba(255,255,255,0.05);
 }
 
 .code-lines {
@@ -93,7 +94,7 @@ body{
 
 .line {
     height: 3px;
-    background: var(--accent); /* Cambiado a rojo para hacer juego con el acento corporativo */
+    background: var(--accent);
     border-radius: 2px;
     opacity: 0;
     animation: type-line 1.2s infinite alternate;
@@ -107,21 +108,22 @@ body{
     to { opacity: 0.8; }
 }
 
+/* Base del teclado */
 .base {
-    width: 130px;
-    height: 8px;
+    width: 156px;
+    height: 10px;
     background: #9ca3af;
     border-radius: 0 0 8px 8px;
     position: absolute;
-    bottom: 22px;
-    left: 5px;
+    bottom: 24px;
+    left: 12px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 .base::after {
     content: '';
     position: absolute;
-    width: 25px;
+    width: 28px;
     height: 3px;
     background: #4b5563;
     bottom: 4px;
@@ -130,44 +132,86 @@ body{
     border-radius: 1.5px;
 }
 
-/* Manos que escriben */
-.hands {
+/* Perspectiva 3D del teclado */
+.keyboard-area {
     position: absolute;
+    width: 90px;
+    height: 30px;
+    bottom: 12px;
+    left: 45px;
+    perspective: 50px;
+}
+
+.keyboard-grid {
     width: 100%;
-    height: 20px;
-    bottom: -6px;
-    left: 0;
+    height: 100%;
+    background: #374151;
+    transform: rotateX(45deg);
+    border-radius: 3px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    padding: 2px;
+}
+
+.key {
+    background: #1f2937;
+    border-radius: 1px;
+}
+
+/* Animación de pulsación de teclas al teclear */
+.typing .key:nth-child(3n) { animation: key-press 0.15s infinite alternate; }
+.typing .key:nth-child(3n+1) { animation: key-press 0.15s infinite alternate 0.04s; }
+.typing .key:nth-child(3n+2) { animation: key-press 0.15s infinite alternate 0.08s; }
+
+@keyframes key-press {
+    from { background: #1f2937; }
+    to { background: var(--accent); }
+}
+
+/* Contenedor de manos y dedos */
+.hands-container {
+    position: absolute;
+    width: 110px;
+    height: 35px;
+    bottom: 0px;
+    left: 35px;
+    display: flex;
+    justify-content: space-between;
     pointer-events: none;
+    z-index: 10;
 }
 
 .hand {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background: #fbcfe8;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    display: flex;
+    gap: 2.5px;
+    align-items: flex-end;
 }
 
-.typing .left-hand {
-    animation: type-left 0.12s infinite alternate;
-}
-.typing .right-hand {
-    animation: type-right 0.12s infinite alternate-reverse;
-}
-
-@keyframes type-left {
-    from { transform: translateY(0) translateX(0) scaleY(0.9); }
-    to { transform: translateY(-6px) translateX(2px) scaleY(1.1); }
+.finger {
+    width: 6px;
+    height: 18px;
+    background: #fbcfe8; /* Color piel */
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-@keyframes type-right {
-    from { transform: translateY(0) translateX(0) scaleY(0.9); }
-    to { transform: translateY(-6px) translateX(-2px) scaleY(1.1); }
-}
+/* Animación de tecleo independiente para cada uno de los dedos */
+.typing .lf1 { animation: finger-tap 0.13s infinite alternate; }
+.typing .lf2 { animation: finger-tap 0.16s infinite alternate 0.03s; }
+.typing .lf3 { animation: finger-tap 0.12s infinite alternate 0.06s; }
+.typing .lf4 { animation: finger-tap 0.15s infinite alternate 0.02s; }
 
-.left-hand { left: 32px; }
-.right-hand { right: 32px; }
+.typing .rf1 { animation: finger-tap 0.14s infinite alternate 0.04s; }
+.typing .rf2 { animation: finger-tap 0.17s infinite alternate 0.01s; }
+.typing .rf3 { animation: finger-tap 0.13s infinite alternate 0.05s; }
+.typing .rf4 { animation: finger-tap 0.15s infinite alternate 0.02s; }
+
+@keyframes finger-tap {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-5px); }
+}
 
 /* 📝 ESTILOS ORIGINALES DE TEXTO (Poppins, Blanco, Centrado) */
 h1 {
@@ -176,7 +220,7 @@ h1 {
     margin-bottom: 15px;
     letter-spacing: 1px;
     color: #ffffff;
-    min-height: 48px; /* Evita saltos bruscos de altura al escribirse */
+    min-height: 48px;
 }
 
 p {
@@ -281,16 +325,34 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
                     <div class="line l3"></div>
                 </div>
             </div>
-            <div class="base">
-                <div class="hands typing" id="handsContainer">
-                    <div class="hand left-hand"></div>
-                    <div class="hand right-hand"></div>
+            <div class="base"></div>
+            <!-- Área tridimensional del teclado -->
+            <div class="keyboard-area" id="keyboardArea">
+                <div class="keyboard-grid">
+                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                    <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+                </div>
+            </div>
+            <!-- Manos con dedos independientes tecleando -->
+            <div class="hands-container typing" id="handsContainer">
+                <div class="hand left-hand">
+                    <div class="finger lf1"></div>
+                    <div class="finger lf2"></div>
+                    <div class="finger lf3"></div>
+                    <div class="finger lf4"></div>
+                </div>
+                <div class="hand right-hand">
+                    <div class="finger rf1"></div>
+                    <div class="finger rf2"></div>
+                    <div class="finger rf3"></div>
+                    <div class="finger rf4"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Título y Subtítulo originales que se escribirán secuencialmente -->
+    <!-- Título y Subtítulo originales -->
     <h1 id="typing-header"></h1>
     <p id="typing-subheader"></p>
 
@@ -308,7 +370,7 @@ const subheaderText = "Escribe tu empresa para continuar...";
 
 let headerIndex = 0;
 let subheaderIndex = 0;
-const speed = 40; // Velocidad de tecleo en milisegundos
+const speed = 45; // Velocidad de tecleo en milisegundos
 
 function typeHeader() {
     const headerEl = document.getElementById("typing-header");
@@ -317,8 +379,7 @@ function typeHeader() {
         headerIndex++;
         setTimeout(typeHeader, speed);
     } else {
-        // Al terminar el título, hacemos una mínima pausa de 200ms y empezamos el subtítulo
-        setTimeout(typeSubheader, 200);
+        setTimeout(typeSubheader, 250);
     }
 }
 
@@ -332,8 +393,10 @@ function typeSubheader() {
         // Al terminar de escribir ambos textos:
         // 1. Detener la animación de las manos tecleando
         document.getElementById("handsContainer").classList.remove("typing");
+        // 2. Detener la iluminación del teclado
+        document.getElementById("keyboardArea").classList.remove("typing");
         
-        // 2. Desplegar el formulario de acceso
+        // 3. Desplegar el formulario de acceso
         const form = document.getElementById("form-container");
         form.classList.add("visible");
         document.getElementById("empresa").focus();
