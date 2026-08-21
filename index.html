@@ -7,9 +7,9 @@
 
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-    <link rel="stylesheet" href="assets/css/site.css">
 <style>
 :root {
     --primary: #ffffff;
@@ -36,11 +36,6 @@ body{
     background: #000000 !important;
 }
 
-/* Fondo animado eliminado */
-
-/* Partículas */
-/* Partículas eliminadas */
-
 /* Contenedor principal */
 .container{
     position:relative;
@@ -48,48 +43,86 @@ body{
     padding:50px 40px;
     background: transparent;
     color:white;
-    width:min(95%, 520px);
-    max-width:520px;
-    animation: fadeInUp 1.2s ease;
-}
-
-.wrapper{
-    width:min(95%, 520px);
-    max-width:520px;
-    margin-top: 24px;
-    padding: 22px 24px;
-    background: transparent;
-    color: white;
-    text-align: center;
-}
-
-.wrapper h1{
-    font-size: 1.35rem;
-    line-height: 1.45;
-    margin: 0 0 16px;
-}
-
-.wrapper div{
-    margin-top: 8px;
+    width:min(95%, 540px);
+    max-width:540px;
+    animation: fadeInUp 1s ease;
 }
 
 /* Animación entrada */
 @keyframes fadeInUp{
-    from{opacity:0; transform:translateY(40px);}
+    from{opacity:0; transform:translateY(30px);}
     to{opacity:1; transform:translateY(0);}
 }
 
-h1{
-    font-size:2.6rem;
-    font-weight:700;
-    margin-bottom:15px;
-    letter-spacing:1px;
+/* Efecto de Terminal */
+.terminal-container {
+    background: rgba(15, 15, 15, 0.7);
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: left;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
 }
 
-p{
-    opacity:0.9;
-    margin-bottom:35px;
-    font-size:1rem;
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+
+.terminal-title {
+    font-size: 0.75rem;
+    color: #666;
+    margin-left: auto;
+    font-family: monospace;
+}
+
+.terminal-body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #00ff66; /* Tono verde retro de terminal, muy limpio */
+    min-height: 110px;
+}
+
+#typing-text::after {
+    content: '_';
+    animation: cursor-blink 0.8s step-end infinite;
+    color: #00ff66;
+    font-weight: bold;
+}
+
+@keyframes cursor-blink {
+    from, to { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* Formulario de empresa (animado al terminar de escribir) */
+#form-container {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    pointer-events: none;
+}
+
+#form-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 /* Botón moderno */
@@ -114,46 +147,6 @@ p{
     color: black;
 }
 
-/* Efecto ripple */
-.btn::after{
-    content:"";
-    position:absolute;
-    width:0;
-    height:0;
-    background:rgba(255,255,255,0.4);
-    border-radius:50%;
-    transform:translate(-50%, -50%);
-    top:50%;
-    left:50%;
-    opacity:0;
-    transition:width 0.5s ease, height 0.5s ease, opacity 0.6s ease;
-}
-
-.btn:active::after{
-    width:200%;
-    height:200%;
-    opacity:0;
-    transition:0s;
-}
-
-@media(max-width:600px){
-    body { padding: 16px 0; }
-    h1{font-size:2rem;}
-    .container{padding:32px 20px; width:92%;}
-    .wrapper{padding:18px 18px; width:92%;}
-    .btn{width:100%; max-width:100%; padding:14px 20px;}
-    .btn-ghost{width:100%; padding:14px 20px;}
-    p{margin-bottom:24px;}
-    .wrapper h1{font-size:1.2rem;}
-}
-
-@media(max-width:380px){
-    h1{font-size:1.8rem;}
-    .container{padding:28px 16px;}
-    .btn{padding:12px 18px;}
-}
-
-/* Estilos para el botón que debe quedar como el primer contenedor */
 .btn-ghost{
     border: 1px solid var(--accent);
     background: transparent;
@@ -164,55 +157,102 @@ p{
     font-weight:600;
     transition: 0.3s;
 }
-.btn-ghost:hover{ background: var(--accent); color: white; }
+.btn-ghost:hover{ 
+    background: var(--accent); 
+    color: white; 
+    box-shadow: 0 0 12px rgba(185, 28, 28, 0.4);
+}
 
-/* Input estilo agradable */
+/* Input moderno */
 input.input-empresa{
     width:100%;
     padding:12px 14px;
-    margin:10px 0 18px 0;
+    margin:10px 0 20px 0;
     border-radius:12px;
-    border: 1px solid var(--accent);
-    background: transparent;
+    border: 1px solid #333;
+    background: rgba(10, 10, 10, 0.5);
     color: white;
     outline: none;
     transition: 0.3s;
+    text-align: center;
 }
 input.input-empresa:focus {
+    border-color: var(--accent);
     box-shadow: 0 0 8px rgba(185, 28, 28, 0.5);
 }
-.btnlink{
-    text-decoration: none;
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
-    text-decoration: underline;
+input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
+
+@media(max-width:600px){
+    body { padding: 16px 0; }
+    .container{padding:32px 20px; width:92%;}
+    .btn-ghost{width:100%; padding:14px 20px;}
 }
-input.input-empresa::placeholder{ color: rgba(255,255,255,0.6); }
 </style>
 </head>
 
 <body>
 
+<div class="container">
+    <!-- Contenedor del efecto máquina de escribir -->
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">MAISITO_CONNECT_v2.0</span>
+        </div>
+        <div class="terminal-body">
+            <span id="typing-text"></span>
+        </div>
+    </div>
 
-<div class="container" style="margin-top: 20px;">
-    <h1>¿Cuál es tu empresa?</h1>
-    <p>Escribe tu empresa para continuar</p>
-    <label for="empresa">Empresa:</label>
-    <input type="text" id="empresa" class="input-empresa" name="empresa" placeholder="Escribe el nombre de tu empresa">
-    <button class="btn btn-ghost" onclick="postempresa()">Seleccionar</button>
+    <!-- Formulario de la empresa (inicialmente invisible) -->
+    <div id="form-container">
+        <label for="empresa" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 1.05rem;">
+            Introduce el nombre de tu empresa:
+        </label>
+        <input type="text" id="empresa" class="input-empresa" name="empresa" placeholder="Ej: Empresa SL" autocomplete="off">
+        <button class="btn btn-ghost" onclick="postempresa()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Acceder</button>
+    </div>
 </div>
 
 <script>
+// Texto que escribirá el bot simulando una terminal
+const textToType = "Estableciendo conexión segura...\nCargando librerías de soporte técnico...\n\n¡Hola! Bienvenido al portal de manuales de MAIS. Por favor, identifícate introduciendo tu empresa a continuación para acceder al sistema.";
+let index = 0;
+const speed = 25; // Velocidad de escritura en milisegundos
+
+function typeWriter() {
+    const textSpan = document.getElementById("typing-text");
+    if (index < textToType.length) {
+        const char = textToType.charAt(index);
+        // Si el caracter es un salto de línea, metemos <br>
+        if (char === "\n") {
+            textSpan.innerHTML += "<br>";
+        } else {
+            textSpan.innerHTML += char;
+        }
+        index++;
+        setTimeout(typeWriter, speed);
+    } else {
+        // Al terminar de escribir, mostramos el formulario con una transición suave
+        const form = document.getElementById("form-container");
+        form.classList.add("visible");
+        document.getElementById("empresa").focus();
+    }
+}
+
+// Iniciar el efecto de escritura cuando cargue la página
+document.addEventListener("DOMContentLoaded", typeWriter);
+
 const POST_URL = "BACKEND/post_empresa.php";
 
 function postempresa() {
-
     const input = document.getElementById("empresa");
     const empresa = input.value.trim();
 
     if (empresa === "") {
-        alert("Introduce el nombre de la empresa");
+        alert("Por favor, introduce el nombre de tu empresa para continuar.");
         input.focus();
         return;
     }
@@ -226,43 +266,20 @@ function postempresa() {
     })
     .then(response => response.json())
     .then(data => {
-
         console.log("Respuesta del servidor:", data);
-
         if (data.success) {
-
-            // Guardar la empresa para usarla después si hace falta
             localStorage.setItem("empresa", empresa);
-
-            // Cambiar de página
             window.location.href = "pages/inicio.html";
-
         } else {
-
-            alert(data.error || "Ha ocurrido un error.");
-
+            alert(data.error || "Ha ocurrido un error al validar la empresa.");
         }
-
     })
     .catch(error => {
-
         console.error("ERROR:", error);
-        alert("Error al conectar con el servidor.");
-
+        alert("Error de red al conectar con el servidor.");
     });
-
 }
 </script>
-
-<!-- <div class="wrapper" style="margin-top: 20px;">
-    <h1 style="text-align: center; margin-top: 20px; color: white;">
-        Este manual estará  inutilizado. Porfavor redirijase a la nueva version, pinche en el link:
-        </h1>
-    <div style="text-align:center; margin-top:18px;">
-        <a href="https://maisformacion.com" target="_blank" class="btnlink">Ir a la nueva versión</a>
-    </div> -->
-    
-</div>
 
 </body>
 </html>
