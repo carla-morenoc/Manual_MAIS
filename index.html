@@ -74,6 +74,8 @@
             margin: 0 auto;
             border-radius: 12px;
             overflow: hidden;
+            /* Transición suave para el zoom de salida y fade-out */
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
             z-index: 5;
         }
 
@@ -95,13 +97,25 @@
             pointer-events: none;
         }
 
-        /* 📝 CONTENEDOR DE CONTENIDO HTML (Instantáneo) */
+        /* Zoom de salida y desvanecimiento al finalizar el vídeo */
+        .video-wrapper.hidden {
+            opacity: 0;
+            transform: scale(1.8);
+            pointer-events: none;
+        }
+
+        /* 📝 CONTENEDOR DE CONTENIDO HTML (Transición fluida de cross-fade) */
         #login-content {
             display: none;
+            opacity: 0;
+            transform: scale(0.95);
+            /* Transición suave de entrada */
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         #login-content.visible {
-            display: block;
+            opacity: 1;
+            transform: scale(1);
         }
 
         /* Estilos de textos */
@@ -247,19 +261,23 @@
                 // Aseguramos que se reproduce una sola vez y sin loop
                 video.loop = false;
 
-                // Callback cuando termine el vídeo del todo (Cambio instantáneo)
+                // Callback cuando termine el vídeo del todo (Transición fluida de 500ms)
                 video.addEventListener("ended", () => {
-                    // Ocultar el vídeo inmediatamente
-                    videoWrapper.style.display = "none";
+                    // 1. Activar animación de salida del vídeo (zoom de alejamiento y fade-out)
+                    videoWrapper.classList.add("hidden");
 
-                    // Mostrar el contenido del index inmediatamente sin retrasos ni transiciones
+                    // 2. Iniciar la entrada de los contenidos del manual (cross-fade)
                     content.style.display = "block";
+                    content.offsetHeight; // Forzar reflujo del DOM para activar la transición CSS
                     content.classList.add("visible");
 
-                    // Poner el foco en el input para comodidad del usuario
-                    if (input) {
-                        input.focus();
-                    }
+                    // 3. Quitar el video físicamente una vez termine la transición (500ms)
+                    setTimeout(() => {
+                        videoWrapper.style.display = "none";
+                        if (input) {
+                            input.focus();
+                        }
+                    }, 500);
                 });
 
                 video.play().catch(error => {
