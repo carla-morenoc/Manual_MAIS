@@ -34,6 +34,7 @@ body{
     align-items:center;
     padding: 20px 0;
     background: #000000 !important;
+    overflow: hidden;
 }
 
 /* Contenedor principal */
@@ -46,6 +47,7 @@ body{
     width:min(95%, 540px);
     max-width:540px;
     animation: fadeInUp 1s ease;
+    z-index: 10;
 }
 
 /* Animación entrada */
@@ -54,20 +56,42 @@ body{
     to{opacity:1; transform:translateY(0);}
 }
 
-/* 🎥 CONTENEDOR DE VÍDEO CON ESTILO PREMIUM */
-.video-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
+/* 🎥 CONTENEDOR DE VÍDEO CON MÁSCARA Y ZOOM CINEMÁTICO */
+.video-wrapper {
+    position: relative;
+    width: 280px;
+    height: 180px;
+    margin: 0 auto 30px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    /* Transición suave para el zoom cinemático */
+    transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.2s ease;
+    z-index: 5;
 }
 
-.video-container video {
-    width: 280px;      /* Tamaño óptimo de visualización */
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(255,255,255,0.06);
-    border: 1px solid #1a1a1a;
-    background: #000;
+.video-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Difuminado radial para fusionar el fondo gris del vídeo con el negro de la página */
+.video-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 40%, #000000 80%);
+    pointer-events: none;
+}
+
+/* Efecto Zoom "entrar al ordenador" */
+.video-wrapper.zoomed {
+    transform: scale(3.5) translateY(10%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* 📝 ESTILOS ORIGINALES DE TEXTO (Poppins, Blanco, Centrado) */
@@ -78,6 +102,7 @@ h1 {
     letter-spacing: 1px;
     color: #ffffff;
     min-height: 48px;
+    transition: transform 1.2s ease, opacity 1.2s ease;
 }
 
 p {
@@ -86,19 +111,30 @@ p {
     font-size: 1rem;
     color: #ffffff;
     min-height: 24px;
+    transition: transform 1.2s ease, opacity 1.2s ease;
+}
+
+/* Animación de textos al hacer zoom */
+.texts-zoomed h1 {
+    transform: scale(0.9) translateY(-15px);
+    opacity: 0.8;
+}
+.texts-zoomed p {
+    transform: scale(0.95) translateY(-10px);
+    opacity: 0.7;
 }
 
 /* Formulario de empresa (animado al terminar de escribir) */
 #form-container {
     opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: scale(0.85) translateY(15px);
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
     pointer-events: none;
 }
 
 #form-container.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
     pointer-events: auto;
 }
 
@@ -170,14 +206,15 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
 
 <body>
 
-<div class="container">
+<div class="container" id="mainContainer">
     
-    <!-- Contenedor del Vídeo subido animacionindex.mp4 -->
-    <div class="video-container">
+    <!-- Contenedor del Vídeo con máscara difuminada -->
+    <div class="video-wrapper" id="videoWrapper">
         <video id="loginVideo" autoplay loop muted playsinline>
             <source src="assets/videos/animacionindex.mp4" type="video/mp4">
             Tu navegador no soporta el formato de vídeo.
         </video>
+        <div class="video-vignette"></div>
     </div>
 
     <!-- Título y Subtítulo originales -->
@@ -219,13 +256,20 @@ function typeSubheader() {
         setTimeout(typeSubheader, speed);
     } else {
         // Al terminar de escribir ambos textos:
-        // 1. Pausar el vídeo en el momento exacto en que termina de escribir (opcional, para dar realismo)
-        const video = document.getElementById("loginVideo");
-        if (video) {
-            video.pause();
+        
+        // 1. Activar el zoom cinemático hacia la pantalla del vídeo
+        const videoWrapper = document.getElementById("videoWrapper");
+        if (videoWrapper) {
+            videoWrapper.classList.add("zoomed");
+        }
+
+        // 2. Reposicionar sutilmente los textos para dar espacio al formulario
+        const mainContainer = document.getElementById("mainContainer");
+        if (mainContainer) {
+            mainContainer.classList.add("texts-zoomed");
         }
         
-        // 2. Desplegar el formulario de acceso
+        // 3. Desplegar el formulario de acceso con escala y fade-in
         const form = document.getElementById("form-container");
         form.classList.add("visible");
         document.getElementById("empresa").focus();
@@ -234,7 +278,6 @@ function typeSubheader() {
 
 // Iniciar animación al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
-    // Asegurar que el vídeo se reproduzca al iniciar la escritura
     const video = document.getElementById("loginVideo");
     if (video) {
         video.play().catch(error => {
