@@ -40,7 +40,7 @@ body{
 .container{
     position:relative;
     text-align:center;
-    padding:50px 40px;
+    padding:30px 20px;
     background: transparent;
     color:white;
     width:min(95%, 540px);
@@ -54,9 +54,130 @@ body{
     to{opacity:1; transform:translateY(0);}
 }
 
+/* 💻 ANIMACIÓN DEL PORTÁTIL Y MANOS (CSS PURO) */
+.laptop-animation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.laptop {
+    position: relative;
+    width: 140px;
+    height: 90px;
+}
+
+.screen {
+    width: 100px;
+    height: 60px;
+    background: #111;
+    border: 3px solid #d1d5db;
+    border-radius: 6px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.code-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 90%;
+}
+
+.line {
+    height: 3px;
+    background: #00ff66;
+    border-radius: 2px;
+    opacity: 0;
+    animation: type-line 1.2s infinite alternate;
+}
+.line.l1 { width: 85%; animation-delay: 0.1s; }
+.line.l2 { width: 60%; animation-delay: 0.4s; }
+.line.l3 { width: 75%; animation-delay: 0.7s; }
+
+@keyframes type-line {
+    from { opacity: 0; }
+    to { opacity: 0.8; }
+}
+
+.base {
+    width: 130px;
+    height: 8px;
+    background: #9ca3af;
+    border-radius: 0 0 8px 8px;
+    position: absolute;
+    bottom: 22px;
+    left: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.base::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 3px;
+    background: #4b5563;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 1.5px;
+}
+
+/* Manos que escriben */
+.hands {
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    bottom: -6px;
+    left: 0;
+    pointer-events: none;
+}
+
+.hand {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #fbcfe8; /* Color piel claro */
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Clase que activa el movimiento de escritura */
+.typing .left-hand {
+    animation: type-left 0.12s infinite alternate;
+}
+.typing .right-hand {
+    animation: type-right 0.12s infinite alternate-reverse;
+}
+
+@keyframes type-left {
+    from { transform: translateY(0) translateX(0) scaleY(0.9); }
+    to { transform: translateY(-6px) translateX(2px) scaleY(1.1); }
+}
+
+@keyframes type-right {
+    from { transform: translateY(0) translateX(0) scaleY(0.9); }
+    to { transform: translateY(-6px) translateX(-2px) scaleY(1.1); }
+}
+
+.left-hand {
+    left: 32px;
+}
+
+.right-hand {
+    right: 32px;
+}
+
 /* Efecto de Terminal */
 .terminal-container {
-    background: rgba(15, 15, 15, 0.7);
+    background: rgba(15, 15, 15, 0.75);
     border: 1px solid #222;
     border-radius: 12px;
     padding: 18px;
@@ -93,10 +214,10 @@ body{
 
 .terminal-body {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     line-height: 1.6;
-    color: #00ff66; /* Tono verde retro de terminal, muy limpio */
-    min-height: 110px;
+    color: #00ff66; /* Terminal retro verde */
+    min-height: 80px;
 }
 
 #typing-text::after {
@@ -193,6 +314,26 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
 <body>
 
 <div class="container">
+    
+    <!-- Contenedor de la animación del ordenador y manos -->
+    <div class="laptop-animation">
+        <div class="laptop">
+            <div class="screen">
+                <div class="code-lines">
+                    <div class="line l1"></div>
+                    <div class="line l2"></div>
+                    <div class="line l3"></div>
+                </div>
+            </div>
+            <div class="base">
+                <div class="hands typing" id="handsContainer">
+                    <div class="hand left-hand"></div>
+                    <div class="hand right-hand"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Contenedor del efecto máquina de escribir -->
     <div class="terminal-container">
         <div class="terminal-header">
@@ -206,27 +347,23 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
         </div>
     </div>
 
-    <!-- Formulario de la empresa (inicialmente invisible) -->
+    <!-- Formulario de la empresa (se despliega al acabar) -->
     <div id="form-container">
-        <label for="empresa" style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 1.05rem;">
-            Introduce el nombre de tu empresa:
-        </label>
-        <input type="text" id="empresa" class="input-empresa" name="empresa" placeholder="Ej: Empresa SL" autocomplete="off">
-        <button class="btn btn-ghost" onclick="postempresa()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Acceder</button>
+        <input type="text" id="empresa" class="input-empresa" name="empresa" placeholder="Escribe el nombre de tu empresa" autocomplete="off">
+        <button class="btn btn-ghost" onclick="postempresa()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Seleccionar</button>
     </div>
 </div>
 
 <script>
-// Texto que escribirá el bot simulando una terminal
-const textToType = "Estableciendo conexión segura...\nCargando librerías de soporte técnico...\n\n¡Hola! Bienvenido al portal de manuales de MAIS. Por favor, identifícate introduciendo tu empresa a continuación para acceder al sistema.";
+// El texto exacto que tenías antes
+const textToType = "¿Cuál es tu empresa?\nEscribe tu empresa para continuar...";
 let index = 0;
-const speed = 25; // Velocidad de escritura en milisegundos
+const speed = 40; // Velocidad de escritura en milisegundos
 
 function typeWriter() {
     const textSpan = document.getElementById("typing-text");
     if (index < textToType.length) {
         const char = textToType.charAt(index);
-        // Si el caracter es un salto de línea, metemos <br>
         if (char === "\n") {
             textSpan.innerHTML += "<br>";
         } else {
@@ -235,7 +372,11 @@ function typeWriter() {
         index++;
         setTimeout(typeWriter, speed);
     } else {
-        // Al terminar de escribir, mostramos el formulario con una transición suave
+        // Al terminar de escribir:
+        // 1. Detenemos la animación de las manos removiendo la clase 'typing'
+        document.getElementById("handsContainer").classList.remove("typing");
+        
+        // 2. Mostramos el formulario con una transición suave
         const form = document.getElementById("form-container");
         form.classList.add("visible");
         document.getElementById("empresa").focus();
@@ -252,7 +393,7 @@ function postempresa() {
     const empresa = input.value.trim();
 
     if (empresa === "") {
-        alert("Por favor, introduce el nombre de tu empresa para continuar.");
+        alert("Introduce el nombre de la empresa");
         input.focus();
         return;
     }
@@ -271,12 +412,12 @@ function postempresa() {
             localStorage.setItem("empresa", empresa);
             window.location.href = "pages/inicio.html";
         } else {
-            alert(data.error || "Ha ocurrido un error al validar la empresa.");
+            alert(data.error || "Ha ocurrido un error.");
         }
     })
     .catch(error => {
         console.error("ERROR:", error);
-        alert("Error de red al conectar con el servidor.");
+        alert("Error al conectar con el servidor.");
     });
 }
 </script>
