@@ -44,8 +44,8 @@ body{
     padding:30px 20px;
     background: transparent;
     color:white;
-    width:min(95%, 540px);
-    max-width:540px;
+    width:min(95%, 620px);
+    max-width:620px;
     animation: fadeInUp 1s ease;
     z-index: 10;
 }
@@ -56,14 +56,13 @@ body{
     to{opacity:1; transform:translateY(0);}
 }
 
-/* 🎥 CONTENEDOR DE VÍDEO CON MÁSCARA Y ZOOM CINEMÁTICO */
+/* 🎥 CONTENEDOR DE VÍDEO GRANDE DESDE EL PRINCIPIO Y ZOOM CINEMÁTICO */
 .video-wrapper {
     position: relative;
-    width: 25vw; /* 25% del ancho de pantalla para responsive */
-    max-width: 280px;
-    min-width: 220px;
-    height: 180px;
-    margin: 0 auto 30px auto;
+    width: 480px; /* Tamaño grande de primeras en pantalla */
+    height: 300px;
+    max-width: 90vw;
+    margin: 0 auto 25px auto;
     border-radius: 12px;
     overflow: hidden;
     /* Transición suave para el zoom cinemático */
@@ -89,22 +88,32 @@ body{
     pointer-events: none;
 }
 
-/* Efecto Zoom: escala 2.7x sobre 25vw hace que ocupe exactamente ~67% de la pantalla */
+/* Efecto Zoom: se agranda y acerca la cámara aún más al acabar el video */
 .video-wrapper.zoomed {
-    transform: scale(2.7) translateY(12%);
-    opacity: 0.9; /* Se mantiene visible de fondo con contraste */
+    transform: scale(2.4) translateY(12%);
+    opacity: 0.85; /* Se mantiene visible de fondo con contraste */
     pointer-events: none;
 }
 
-/* 📝 ESTILOS ORIGINALES DE TEXTO (Poppins, Blanco, Centrado) */
+/* 📝 CONTENEDOR DE CONTENIDO HTML (Textos y formulario) */
+#login-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#login-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Estilos de textos */
 h1 {
     font-size: 2.6rem;
     font-weight: 700;
     margin-bottom: 15px;
     letter-spacing: 1px;
     color: #ffffff;
-    min-height: 48px;
-    transition: transform 1.2s ease, opacity 1.2s ease;
 }
 
 p {
@@ -112,32 +121,6 @@ p {
     margin-bottom: 35px;
     font-size: 1rem;
     color: #ffffff;
-    min-height: 24px;
-    transition: transform 1.2s ease, opacity 1.2s ease;
-}
-
-/* Animación de textos al hacer zoom */
-.texts-zoomed h1 {
-    transform: scale(0.9) translateY(-25px);
-    opacity: 0.8;
-}
-.texts-zoomed p {
-    transform: scale(0.95) translateY(-20px);
-    opacity: 0.7;
-}
-
-/* Formulario de empresa (animado al terminar de escribir) */
-#form-container {
-    opacity: 0;
-    transform: scale(0.85) translateY(15px);
-    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-    pointer-events: none;
-}
-
-#form-container.visible {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    pointer-events: auto;
 }
 
 /* Botón moderno */
@@ -201,7 +184,7 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
     body { padding: 16px 0; }
     .container{padding:32px 20px; width:92%;}
     .btn-ghost{width:100%; padding:14px 20px;}
-    h1 { font-size: 2rem; min-height: 72px; }
+    h1 { font-size: 2rem; }
 }
 </style>
 </head>
@@ -210,7 +193,7 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
 
 <div class="container" id="mainContainer">
     
-    <!-- Contenedor del Vídeo sin loop inicial -->
+    <!-- Contenedor del Vídeo sin loop inicial y grande desde el principio -->
     <div class="video-wrapper" id="videoWrapper">
         <video id="loginVideo" autoplay muted playsinline>
             <source src="assets/videos/animacionindex2.mp4" type="video/mp4">
@@ -219,85 +202,54 @@ input.input-empresa::placeholder{ color: rgba(255,255,255,0.4); }
         <div class="video-vignette"></div>
     </div>
 
-    <!-- Título y Subtítulo originales -->
-    <h1 id="typing-header"></h1>
-    <p id="typing-subheader"></p>
+    <!-- Contenido que aparece del tirón al acabar el vídeo -->
+    <div id="login-content">
+        <h1>¿Cuál es tu empresa?</h1>
+        <p>Escribe tu empresa para continuar...</p>
 
-    <!-- Formulario de la empresa (se despliega al acabar) -->
-    <div id="form-container">
-        <input type="text" id="empresa" class="input-empresa" name="empresa" placeholder="Escribe el nombre de tu empresa" autocomplete="off">
-        <button class="btn btn-ghost" onclick="postempresa()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Seleccionar</button>
+        <!-- Formulario de la empresa -->
+        <div id="form-container">
+            <input type="text" id="empresa" class="input-empresa" name="empresa" placeholder="Escribe el nombre de tu empresa" autocomplete="off">
+            <button class="btn btn-ghost" onclick="postempresa()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Seleccionar</button>
+        </div>
     </div>
 </div>
 
 <script>
-// Textos originales separados
-const headerText = "¿Cuál es tu empresa?";
-const subheaderText = "Escribe tu empresa para continuar...";
-
-let headerIndex = 0;
-let subheaderIndex = 0;
-const speed = 45; // Velocidad de tecleo en milisegundos
-
-function typeHeader() {
-    const headerEl = document.getElementById("typing-header");
-    if (headerIndex < headerText.length) {
-        headerEl.textContent += headerText.charAt(headerIndex);
-        headerIndex++;
-        setTimeout(typeHeader, speed);
-    } else {
-        setTimeout(typeSubheader, 250);
-    }
-}
-
-function typeSubheader() {
-    const subheaderEl = document.getElementById("typing-subheader");
-    if (subheaderIndex < subheaderText.length) {
-        subheaderEl.textContent += subheaderText.charAt(subheaderIndex);
-        subheaderIndex++;
-        setTimeout(typeSubheader, speed);
-    } else {
-        // Al terminar de escribir ambos textos:
-        
-        // 1. Activar el zoom cinemático hacia la pantalla del vídeo (escala al ~67% de pantalla)
-        const videoWrapper = document.getElementById("videoWrapper");
-        if (videoWrapper) {
-            videoWrapper.classList.add("zoomed");
-        }
-
-        // 2. Reposicionar sutilmente los textos para dar espacio al formulario
-        const mainContainer = document.getElementById("mainContainer");
-        if (mainContainer) {
-            mainContainer.classList.add("texts-zoomed");
-        }
-        
-        // 3. Desplegar el formulario de acceso con escala y fade-in
-        const form = document.getElementById("form-container");
-        form.classList.add("visible");
-        document.getElementById("empresa").focus();
-    }
-}
-
-// Iniciar animación al cargar la página
+// Iniciar animación y configurar el callback al terminar el vídeo
 document.addEventListener("DOMContentLoaded", () => {
     const video = document.getElementById("loginVideo");
     if (video) {
-        // Esperar a que el vídeo termine de reproducirse (completar animación de apertura)
+        // Aseguramos que NO esté en bucle
+        video.loop = false;
+        
         video.addEventListener("ended", () => {
-            // 1. Poner el vídeo en loop y reproducirlo para simular tecleo continuo
-            video.loop = true;
-            video.play();
+            // 1. Activar el zoom del vídeo para acercar la pantalla del portátil
+            const videoWrapper = document.getElementById("videoWrapper");
+            if (videoWrapper) {
+                videoWrapper.classList.add("zoomed");
+            }
             
-            // 2. Iniciar la escritura de las letras en pantalla
-            typeHeader();
+            // 2. Mostrar todo el contenido HTML (textos y formulario) del tirón
+            const content = document.getElementById("login-content");
+            if (content) {
+                content.classList.add("visible");
+            }
+            
+            // 3. Poner el foco en la entrada de texto
+            const input = document.getElementById("empresa");
+            if (input) {
+                input.focus();
+            }
         });
         
         video.play().catch(error => {
-            console.log("Auto-play prevenido por el navegador, esperando interacción.", error);
+            console.log("Auto-play prevenido", error);
         });
     } else {
-        // Fallback si no hay vídeo
-        typeHeader();
+        // Fallback si por alguna razón falla el vídeo
+        const content = document.getElementById("login-content");
+        if (content) content.classList.add("visible");
     }
 });
 
