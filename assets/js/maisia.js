@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentViewerDocId = null;
     let currentViewerFilename = "";
     let currentViewerPage = 1;
+    let currentBlobUrl = null;
 
     function addMessage(text, sender, sources = []) {
         const messageDiv = document.createElement("div");
@@ -197,19 +198,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Abrir visor de PDF
-    function openPdfViewer(docId, filename, page) {
+    async function openPdfViewer(docId, filename, page) {
         currentViewerDocId = docId;
         currentViewerFilename = filename;
         currentViewerPage = parseInt(page, 10) || 1;
 
-        pdfTitle.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${filename}`;
+        pdfTitle.innerHTML = `<i class="fa-solid fa-file-pdf"></i> Cargando ${filename}...`;
         pageIndicator.textContent = `Pág. ${currentViewerPage}`;
-        
-        // Hacemos que se cargue la URL limpia con parámetros para ocultar la barra por defecto del navegador (toolbar=0)
-        // Usamos un timestamp (?t=...) para obligar al navegador a recargar y aplicar el salto de página si ya estaba cargado
-        pdfFrame.src = `${BASE_URL}/api/v1/documents/${docId}/file?t=${Date.now()}#page=${currentViewerPage}&toolbar=0&navpanes=0&view=FitH`;
-        
         mainLayout.classList.add("pdf-open");
+        pdfFrame.src = "";
+
+        try {
+            if (currentBlobUrl) {
+                URL.revokeObjectURL(currentBlobUrl);
+                currentBlobUrl = null;
+            }
+
+            const response = await fetch(`${BASE_URL}/api/v1/documents/${docId}/file`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true',
+                    'Bypass-Tunnel-Reminder': 'true'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("No se pudo obtener el PDF");
+            }
+
+            const blob = await response.blob();
+            const pdfBlob = new Blob([blob], { type: 'application/pdf' });
+            currentBlobUrl = URL.createObjectURL(pdfBlob);
+
+            pdfTitle.innerHTML = `<i class="fa-solid fa-file-pdf"></i> ${filename}`;
+            pdfFrame.src = `${currentBlobUrl}#page=${currentViewerPage}&toolbar=0&navpanes=0&view=FitH`;
+        } catch (error) {
+            console.error("Error al cargar PDF:", error);
+            pdfTitle.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Error al cargar ${filename}`;
+        }
     }
 
     // Navegar páginas en el visor de PDF
@@ -222,8 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
         currentViewerPage = newPage;
         pageIndicator.textContent = `Pág. ${currentViewerPage}`;
         
-        // Forzar recarga con el nuevo hash de página
-        pdfFrame.src = `${BASE_URL}/api/v1/documents/${currentViewerDocId}/file?t=${Date.now()}#page=${currentViewerPage}&toolbar=0&navpanes=0&view=FitH`;
+        if (currentBlobUrl) {
+            pdfFrame.src = `${currentBlobUrl}#page=${currentViewerPage}&toolbar=0&navpanes=0&view=FitH`;
+        }
     }
 
     // Cerrar visor de PDF
@@ -231,6 +257,10 @@ document.addEventListener("DOMContentLoaded", () => {
         mainLayout.classList.remove("pdf-open");
         pdfFrame.src = "";
         currentViewerDocId = null;
+        if (currentBlobUrl) {
+            URL.revokeObjectURL(currentBlobUrl);
+            currentBlobUrl = null;
+        }
     }
 
     async function handleSend() {

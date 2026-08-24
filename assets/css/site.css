@@ -2,17 +2,17 @@
 	--max-width: 95%;
 	--content-padding: 24px;
 	--color-primary: #ffffff;
-	--color-primary-light: #f3f3f3;
-	--color-bg: #000000;
-	--color-surface: transparent;
-	--text: #ffffff;
-	--text-light: #cccccc;
-	--accent: #b91c1c;
-	--border-color: #333333;
+	--color-primary-light: #172a45;
+	--color-bg: #0a192f;
+	--color-surface: #112240;
+	--text: #cbd5e1;
+	--text-light: #8892b0;
+	--accent: #3b82f6;
+	--border-color: #233554;
 	--radius: 8px;
-	--shadow-sm: none;
-	--shadow: none;
-	--shadow-lg: none;
+	--shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+	--shadow: 0 4px 6px rgba(0,0,0,0.25);
+	--shadow-lg: 0 10px 15px rgba(0,0,0,0.3);
 	--transition: 0.2s ease-in-out;
 }
 
@@ -48,7 +48,7 @@ h1 i, h2 i, h3 i, h4 i, .titulo-general i, .doc-block-title i {
 	position: sticky;
 	top: 0;
 	z-index: 1000;
-	background: #000000;
+	background: var(--color-surface);
 	border-bottom: 1px solid var(--border-color);
 	padding: 12px 24px;
 	display: flex;
@@ -83,7 +83,21 @@ h1 i, h2 i, h3 i, h4 i, .titulo-general i, .doc-block-title i {
 }
 
 .nav-links a:hover {
-	color: var(--color-primary);
+	color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 16px;
+        text-align: center;
+    }
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px 15px;
+    }
 }
 
 .documento {
@@ -418,7 +432,7 @@ th, td { padding: 8px 10px; border: 1px solid #eef2f6; }
 }
 
 .user-msg{
-    background:#b91c1c;
+    background:#1d4ed8;
     padding:10px;
     border-radius:10px;
     margin:8px 0;
@@ -477,4 +491,955 @@ th, td { padding: 8px 10px; border: 1px solid #eef2f6; }
     transform: none;
 }
 
+/* ==========================================================================
+   ESTILOS CONSOLIDADOS DE PÁGINAS INDIVIDUALES
+   ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   1. Estilos de index.html (Login / Landing)
+   -------------------------------------------------------------------------- */
+body.login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    background: var(--color-bg) !important;
+    overflow: hidden;
+}
+
+body.login-page .container {
+    position: relative;
+    text-align: center;
+    padding: 30px 20px;
+    background: transparent;
+    color: #cbd5e1;
+    width: min(95%, 850px);
+    max-width: 850px;
+    animation: fadeInUp 1s ease;
+    z-index: 10;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body.login-page .video-wrapper {
+    position: relative;
+    width: 67vw;
+    max-width: 850px;
+    min-width: 280px;
+    aspect-ratio: 16/10;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 1.0s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 5;
+}
+
+body.login-page .video-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+body.login-page .video-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 40%, var(--color-bg) 80%);
+    pointer-events: none;
+}
+
+body.login-page .video-wrapper.zooming {
+    transform: scale(1.6);
+}
+
+body.login-page #login-content {
+    display: none;
+    opacity: 0;
+    transform: scale(0.05);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+body.login-page #login-content.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+body.login-page h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    color: var(--color-primary);
+}
+
+body.login-page p {
+    opacity: 0.9;
+    margin-bottom: 35px;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+body.login-page .btn {
+    position: relative;
+    display: inline-block;
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #ffffff;
+    background: transparent;
+    border: 1px solid var(--accent);
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+body.login-page .btn:hover {
+    transform: translateY(-4px);
+    background: var(--accent);
+    color: #ffffff;
+}
+
+body.login-page .btn-ghost {
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+body.login-page .btn-ghost:hover {
+    background: var(--accent);
+    color: #cbd5e1;
+    box-shadow: 0 0 12px rgba(29, 78, 216, 0.4);
+}
+
+body.login-page input.input-empresa {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 10px 0 20px 0;
+    border-radius: 12px;
+    border: 1px solid #333;
+    background: rgba(10, 10, 10, 0.5);
+    color: #cbd5e1;
+    outline: none;
+    transition: 0.3s;
+    text-align: center;
+}
+
+body.login-page input.input-empresa:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px rgba(29, 78, 216, 0.5);
+}
+
+body.login-page input.input-empresa::placeholder {
+    color: var(--text-light);
+}
+
+@media(max-width:600px) {
+    body.login-page {
+        padding: 16px 0;
+    }
+    body.login-page .container {
+        padding: 32px 20px;
+        width: 92%;
+    }
+    body.login-page .btn-ghost {
+        width: 100%;
+        padding: 14px 20px;
+    }
+    body.login-page h1 {
+        font-size: 2rem;
+    }
+    body.login-page .video-wrapper {
+        width: 90vw;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   2. Estilos de inicio.html (Menú Principal)
+   -------------------------------------------------------------------------- */
+body.inicio-page {
+    font-family: "Poppins", sans-serif;
+    color: var(--text);
+    line-height: 1.7;
+}
+
+body.inicio-page header {
+    position: relative;
+    background: transparent;
+    padding: 80px 20px 60px;
+    text-align: center;
+    color: var(--color-primary);
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+body.inicio-page header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+body.inicio-page header p {
+    font-size: 1.15rem;
+    margin-top: 12px;
+    opacity: 0.95;
+}
+
+body.inicio-page .img-large {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 24px 0;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+body.inicio-page .img-location {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin: 16px 0;
+}
+
+body.inicio-page .doc-section {
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+body.inicio-page .doc-section:last-of-type {
+    border-bottom: none;
+}
+
+body.inicio-page .doc-block {
+    margin-bottom: 48px;
+}
+
+body.inicio-page .doc-block-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.inicio-page .doc-block-title i {
+    color: var(--accent);
+    font-size: 1.3rem;
+}
+
+body.inicio-page .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+body.inicio-page .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--color-surface);
+    min-width: 250px;
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius);
+    z-index: 10;
+    margin-top: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+body.inicio-page .dropdown-content a {
+    color: var(--text);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    transition: background var(--transition);
+}
+
+body.inicio-page .dropdown-content a:hover {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+}
+
+body.inicio-page .dropdown:hover .dropdown-content,
+body.inicio-page .dropdown:focus-within .dropdown-content {
+    display: block;
+}
+
+body.inicio-page .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+body.inicio-page .tip {
+    background: var(--color-primary-light);
+    border-left: 4px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin: 20px 0;
+}
+
+body.inicio-page footer {
+    text-align: center;
+    padding: 30px;
+    background: transparent;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-top: 60px;
+}
+
+body.inicio-page .pulse-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f5a623;
+    margin-right: 8px;
+    box-shadow: 0 0 0 0 rgba(245, 166, 35, 0.7);
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(245, 166, 35, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(245, 166, 35, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 166, 35, 0); }
+}
+
+body.inicio-page .status-text {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-top: 40px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Estilos de maisia.html (Asistente Inteligente)
+   -------------------------------------------------------------------------- */
+body.maisia-page {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body.maisia-page .chat-container {
+    width: 100%;
+    max-width: 900px;
+    height: 90vh;
+    background: var(--color-surface);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+body.maisia-page .chat-header {
+    background: var(--color-primary-light);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--accent);
+}
+
+body.maisia-page .chat-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+body.maisia-page .chat-header h1 i {
+    color: var(--accent);
+}
+
+body.maisia-page .btn-back {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+body.maisia-page .btn-back:hover {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+body.maisia-page .chat-messages {
+    flex: 1;
+    padding: 30px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+body.maisia-page .message {
+    max-width: 80%;
+    display: flex;
+    gap: 16px;
+    animation: fadeIn 0.3s ease;
+}
+
+body.maisia-page .message.bot {
+    align-self: flex-start;
+}
+
+body.maisia-page .message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+body.maisia-page .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+}
+
+body.maisia-page .bot .avatar {
+    background: #ffffff;
+    color: var(--accent);
+    border: 1px solid var(--border-color);
+}
+
+body.maisia-page .user .avatar {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+body.maisia-page .message-content {
+    background: var(--color-primary-light);
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+body.maisia-page .bot .message-content {
+    border-top-left-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+body.maisia-page .user .message-content {
+    background: var(--accent);
+    color: #fff;
+    border-top-right-radius: 4px;
+}
+
+body.maisia-page .chat-input-area {
+    padding: 20px 24px;
+    background: var(--color-primary-light);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 12px;
+}
+
+body.maisia-page .chat-input-area input {
+    flex: 1;
+    background: var(--color-bg);
+    border: 1px solid var(--border-color);
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+body.maisia-page .chat-input-area input:focus {
+    border-color: var(--accent);
+}
+
+body.maisia-page .btn-send {
+    background: var(--accent);
+    color: #cbd5e1;
+    border: none;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+}
+
+body.maisia-page .btn-send:hover {
+    background: #3b82f6;
+    transform: scale(1.05);
+}
+
+body.maisia-page .btn-send:active {
+    transform: scale(0.95);
+}
+
+body.maisia-page .typing-indicator {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding: 8px 0;
+}
+
+body.maisia-page .dot {
+    width: 8px;
+    height: 8px;
+    background: var(--text-light);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+body.maisia-page .dot:nth-child(1) { animation-delay: -0.32s; }
+body.maisia-page .dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body.maisia-page .chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+body.maisia-page .chat-messages::-webkit-scrollbar-track {
+    background: var(--color-primary-light); 
+}
+body.maisia-page .chat-messages::-webkit-scrollbar-thumb {
+    background: var(--border-color); 
+    border-radius: 4px;
+}
+body.maisia-page .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--text-light); 
+}
+
+body.maisia-page #mainLayout {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    height: 90vh;
+    gap: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 0 auto;
+}
+
+body.maisia-page #mainLayout.pdf-open {
+    max-width: 1600px;
+    width: 96vw;
+    gap: 20px;
+}
+
+body.maisia-page .chat-container {
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+body.maisia-page #pdfViewerContainer {
+    width: 0;
+    opacity: 0;
+    background: var(--color-surface);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+body.maisia-page #mainLayout.pdf-open #pdfViewerContainer {
+    width: 50%;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 1024px) {
+    body.maisia-page #mainLayout.pdf-open {
+        flex-direction: column;
+        height: 95vh;
+    }
+    body.maisia-page #mainLayout.pdf-open #pdfViewerContainer {
+        width: 100%;
+        height: 50%;
+    }
+}
+
+@media (max-width: 768px) {
+    body.maisia-page #mainLayout.pdf-open .chat-container {
+        display: none;
+    }
+    body.maisia-page #mainLayout.pdf-open #pdfViewerContainer {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    body.maisia-page .pdf-viewer-header {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+    body.maisia-page .pdf-viewer-header span {
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    body.maisia-page .pdf-page-controls {
+        gap: 6px;
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    body.maisia-page .btn-close-pdf {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+}
+
+body.maisia-page .pdf-viewer-header {
+    background: var(--color-primary-light);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--accent);
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+body.maisia-page .pdf-viewer-header span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+body.maisia-page .pdf-viewer-header span i {
+    color: var(--accent);
+}
+
+body.maisia-page .btn-close-pdf {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body.maisia-page .btn-close-pdf:hover {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+body.maisia-page .pdf-page-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--color-primary-light);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+body.maisia-page .btn-page-control {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+    padding: 2px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.maisia-page .btn-page-control:hover {
+    color: var(--accent);
+}
+
+body.maisia-page #pdfFrame {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    background: var(--color-surface);
+    border: none;
+}
+
+body.maisia-page .citation-pill {
+    background: rgba(29, 78, 216, 0.15);
+    border: 1px solid rgba(29, 78, 216, 0.3);
+    color: #3b82f6;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 2px 4px;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+body.maisia-page .citation-pill:hover {
+    background: rgba(29, 78, 216, 0.35);
+    border-color: rgba(29, 78, 216, 0.5);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(29, 78, 216, 0.25);
+}
+
+body.maisia-page .citation-pill i {
+    color: #93c5fd;
+    font-size: 0.85rem;
+}
+
+body.maisia-page .chat-paragraph {
+    margin: 0 0 12px 0;
+}
+body.maisia-page .chat-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+body.maisia-page .chat-list {
+    margin: 0 0 12px 20px;
+    padding: 0;
+}
+
+body.maisia-page .chat-list li {
+    margin-bottom: 6px;
+    line-height: 1.6;
+}
+body.maisia-page .chat-list li:last-child {
+    margin-bottom: 0;
+}
+
+body.maisia-page .message-content strong {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   4. Estilos de las 15 páginas de guías / manuales (*.html en pages/)
+   -------------------------------------------------------------------------- */
+body.guide-page {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    margin: 0;
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+body.guide-page .wrapper {
+    width: 100%;
+}
+
+body.guide-page main {
+    width: 100%;
+    margin: 0 auto;
+}
+
+body.guide-page .titulo-general {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+body.guide-page .titulo-general h1 {
+    font-size: 2.2rem;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+body.guide-page .titulo-general p {
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+body.guide-page .documento {
+    padding: 45px;
+    border-radius: 14px;
+    margin-bottom: 35px;
+    border: 1px solid var(--border-color);
+    background: var(--color-surface);
+}
+
+body.guide-page h2 {
+    margin-top: 0;
+    color: var(--color-primary);
+}
+
+body.guide-page h3 {
+    margin-top: 30px;
+}
+
+body.guide-page p, 
+body.guide-page li {
+    line-height: 1.7;
+}
+
+body.guide-page ol {
+    padding-left: 20px;
+}
+
+body.guide-page .nota {
+    background: var(--color-primary-light);
+    padding: 15px 18px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 0.95rem;
+}
+
+body.guide-page .enlace-externo {
+    margin-top: 20px;
+    padding: 18px;
+    background: var(--color-primary-light);
+    border-radius: 10px;
+    text-align: center;
+}
+
+body.guide-page .enlace-externo a {
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+body.guide-page .enlace-externo a:hover {
+    text-decoration: underline;
+}
+
+body.guide-page code {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+body.guide-page .icono-pequeno {
+    display: block;
+    margin: 20px auto;
+    width: 12px;
+    height: auto;
+}
+
+body.guide-page .imagen-placeholder {
+    text-align: center;
+    margin: 25px 0;
+}
+
+body.guide-page .imagen-placeholder img {
+    max-width: 100%;
+    width: 100%;
+    max-width: 750px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+body.guide-page img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+body.guide-page video {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 600px) {
+    body.guide-page .documento {
+        padding: 30px;
+    }
+}
+
+/* ==========================================================================
+   Iconos y Emojis en Azul (FontAwesome)
+   ========================================================================== */
+body.guide-page h1 i,
+body.guide-page h2 i,
+body.guide-page h3 i,
+body.guide-page li i,
+body.inicio-page .doc-block-title i,
+body.inicio-page header h1 i,
+body.inicio-page header p i,
+body.maisia-page .chat-header h1 i,
+body.maisia-page .pdf-viewer-header span i {
+    color: var(--accent) !important;
+}
+
+/* Permitir que los iconos en botones, avatares y enlaces hereden el color correcto */
+a i, button i, .btn i, .avatar i, .btn-send i, .btn-back i, .btn-close-pdf i, .btn-page-control i {
+    color: inherit !important;
+}

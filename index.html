@@ -11,223 +11,16 @@
     <link rel="stylesheet" href="assets/css/site.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        :root {
-            --primary: #ffffff;
-            --secondary: #333333;
-            --accent: #b91c1c;
-            --glass: transparent;
-            --radius: 8px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 0;
-            background: #000000 !important;
-            overflow: hidden;
-        }
-
-        /* Contenedor principal */
-        .container {
-            position: relative;
-            text-align: center;
-            padding: 30px 20px;
-            background: transparent;
-            color: white;
-            width: min(95%, 680px);
-            max-width: 680px;
-            animation: fadeInUp 1s ease;
-            z-index: 10;
-        }
-
-        /* Animación entrada */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* 🎥 CONTENEDOR DE VÍDEO (67% DEL ANCHO DE PANTALLA) */
-        .video-wrapper {
-            position: relative;
-            width: 67vw;
-            max-width: 850px;
-            min-width: 280px;
-            aspect-ratio: 16/10;
-            margin: 0 auto;
-            border-radius: 12px;
-            overflow: hidden;
-            /* Animamos únicamente el transform para el acercamiento */
-            transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 5;
-        }
-
-        .video-wrapper video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Difuminado radial para fusionar el fondo del vídeo con el negro de la página */
-        .video-vignette {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, transparent 40%, #000000 80%);
-            pointer-events: none;
-        }
-
-        /* Acercamiento progresivo de la cámara (se va trayendo la pantalla) */
-        .video-wrapper.zooming {
-            transform: scale(1.6);
-        }
-
-        /* 📝 CONTENEDOR DE CONTENIDO HTML (Escupido rápido y elástico) */
-        #login-content {
-            display: none;
-            opacity: 0;
-            transform: scale(0.05); /* Empieza diminuto simulando estar dentro de la pantalla del portátil */
-            /* Transición rápida y explosiva para el efecto "escupido" */
-            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        #login-content.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Estilos de textos */
-        h1 {
-            font-size: 2.6rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            color: #ffffff;
-        }
-
-        p {
-            opacity: 0.9;
-            margin-bottom: 35px;
-            font-size: 1rem;
-            color: #ffffff;
-        }
-
-        /* Botón moderno */
-        .btn {
-            position: relative;
-            display: inline-block;
-            padding: 14px 35px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 50px;
-            text-decoration: none;
-            color: white;
-            background: transparent;
-            border: 1px solid white;
-            overflow: hidden;
-            transition: 0.4s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-4px);
-            background: white;
-            color: black;
-        }
-
-        .btn-ghost {
-            border: 1px solid var(--accent);
-            background: transparent;
-            color: var(--accent);
-            padding: 12px 30px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .btn-ghost:hover {
-            background: var(--accent);
-            color: white;
-            box-shadow: 0 0 12px rgba(185, 28, 28, 0.4);
-        }
-
-        /* Input moderno */
-        input.input-empresa {
-            width: 100%;
-            padding: 12px 14px;
-            margin: 10px 0 20px 0;
-            border-radius: 12px;
-            border: 1px solid #333;
-            background: rgba(10, 10, 10, 0.5);
-            color: white;
-            outline: none;
-            transition: 0.3s;
-            text-align: center;
-        }
-
-        input.input-empresa:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 8px rgba(185, 28, 28, 0.5);
-        }
-
-        input.input-empresa::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        @media(max-width:600px) {
-            body {
-                padding: 16px 0;
-            }
-
-            .container {
-                padding: 32px 20px;
-                width: 92%;
-            }
-
-            .btn-ghost {
-                width: 100%;
-                padding: 14px 20px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .video-wrapper {
-                width: 90vw;
-            }
-        }
-    </style>
 </head>
 
-<body>
+<body class="login-page">
 
     <div class="container" id="mainContainer">
 
         <!-- Contenedor del Vídeo sin loop y grande de primeras (67% de ancho) -->
         <div class="video-wrapper" id="videoWrapper">
             <video id="loginVideo" autoplay muted playsinline>
-                <source src="assets/videos/animacionindex.mp4" type="video/mp4">
+                <source src="assets/videos/animacionindex (2).mp4" type="video/mp4">
                 Tu navegador no soporta el formato de vídeo.
             </video>
             <div class="video-vignette"></div>
@@ -259,44 +52,62 @@
             const input = document.getElementById("empresa");
 
             if (video) {
-                // Aseguramos que se reproduce una sola vez y sin loop
                 video.loop = false;
                 let zoomTriggered = false;
+                let endedTriggered = false;
+                const maxDuration = 3.0; // Duración máxima en segundos
 
-                // 1. Ir acercando la pantalla en el tramo final del vídeo
+                function handleVideoEnd() {
+                    if (endedTriggered) return;
+                    endedTriggered = true;
+                    video.pause();
+                    videoWrapper.style.display = "none";
+                    content.style.display = "block";
+                    content.offsetHeight; // Forzar reflujo del DOM
+                    content.classList.add("visible");
+                    if (input) {
+                        input.focus();
+                    }
+                }
+
                 video.addEventListener("timeupdate", () => {
-                    // 1.5 segundos antes de que termine el vídeo, se empieza a acercar (traer la pantalla)
-                    if (video.duration && video.currentTime >= video.duration - 1.5) {
+                    const current = video.currentTime;
+                    // Se empieza a acercar 1.0 segundo antes de terminar (a los 2.0s)
+                    if (current >= (maxDuration - 1.0)) {
                         if (!zoomTriggered) {
                             zoomTriggered = true;
                             videoWrapper.classList.add("zooming");
                         }
                     }
-                });
-
-                // 2. Callback cuando termine el vídeo del todo (Corte y escupido rápido)
-                video.addEventListener("ended", () => {
-                    // Cortar el vídeo instantáneamente (sin desvanecimiento lento)
-                    videoWrapper.style.display = "none";
-
-                    // Mostrar e inyectar el index rápido (escupido elástico en 0.4s)
-                    content.style.display = "block";
-                    content.offsetHeight; // Forzar reflujo del DOM para activar la transición CSS
-                    content.classList.add("visible");
-
-                    // Poner el foco en el input para comodidad del usuario
-                    if (input) {
-                        input.focus();
+                    // Detener el vídeo al llegar a la duración máxima
+                    if (current >= maxDuration) {
+                        handleVideoEnd();
                     }
                 });
 
+                video.addEventListener("ended", () => {
+                    handleVideoEnd();
+                });
+
+                video.muted = true;
+                video.playsInline = true;
+
                 video.play().catch(error => {
-                    console.log("Auto-play prevenido", error);
+                    console.log("Auto-play prevenido por el navegador, saltando intro:", error);
+                    handleVideoEnd();
                 });
             } else {
-                // Fallback si por alguna razón falla el vídeo
                 content.style.display = "block";
                 content.classList.add("visible");
+            }
+
+            if (input) {
+                input.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                        postempresa();
+                    }
+                });
             }
         });
 

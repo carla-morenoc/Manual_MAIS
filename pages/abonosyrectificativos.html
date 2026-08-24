@@ -7,165 +7,10 @@
 
 
     <link rel="stylesheet" href="../assets/css/site.css">
-<style>
-
-    body {
-        font-family: "Segoe UI", Tahoma, sans-serif;
-        
-        margin: 0;
-        padding: 50px 20px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .wrapper {
-        
-        width: 100%;
-    }
-
-    /* TÍTULO GENERAL FUERA DEL SECTION */
-    .titulo-general {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-
-    .titulo-general h1 {
-        font-size: 2.2rem;
-        color: #ffffff;
-        margin-bottom: 10px;
-    }
-
-    .titulo-general p {
-        
-        font-size: 1rem;
-        letter-spacing: 1px;
-    }
-
-    /* DOCUMENTO */
-    .documento {
-        
-        padding: 45px;
-        border-radius: 14px;
-        
-        
-        margin-bottom: 35px;
-    }
-
-    h2 {
-        margin-top: 0;
-        color: #ffffff;
-    }
-
-    h3 {
-        margin-top: 30px;
-        
-    }
-
-    p, li {
-        line-height: 1.7;
-        
-    }
-
-    ol {
-        padding-left: 20px;
-    }
-
-    .nota {
-        background: #111111;
-        padding: 15px 18px;
-        border-radius: 8px;
-        margin-top: 20px;
-        font-size: 0.95rem;
-    }
-
-    .enlace-externo {
-        margin-top: 20px;
-        padding: 18px;
-        background: #111111;
-        border-radius: 10px;
-        text-align: center;
-    }
-
-    .enlace-externo a {
-        text-decoration: none;
-        color: var(--accent);
-        font-weight: 600;
-        font-size: 1rem;
-    }
-
-    .enlace-externo a:hover {
-        text-decoration: underline;
-    }
-
-    code {
-        background: #333333;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 0.9rem;
-    }
-
-    @media (max-width: 600px) {
-        .documento {
-            padding: 30px;
-        }
-    }
-    /* CONTENEDOR DE IMAGEN */
-.imagen-placeholder {
-    text-align: center;
-    margin: 25px 0;
-}
-
-/* IMÁGENES DEL MANUAL */
-.imagen-placeholder img {
-    max-width: 100%;
-    width: 100%;
-    max-width: 750px;        /* tamaño máximo visual */
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-.icono-pequeno {
-    display: block;
-    margin: 20px auto;
-    width: 12px;      /* tamaño del icono */
-    height: auto;
-}
-.icono-container {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.icono-container img {
-    width: 80px;   /* tamaño real del icono */
-    height: auto;
-}
-.video-container {
-    text-align: center;
-    margin: 18px 0;
-}
-
-.video-frame {
-    width: 100%;
-    max-width: 720px; /* tamaño máximo visible */
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-    border: 6px solid var(--accent); /* marco visible coherente con el diseño */
-    display: block;
-    margin: 0 auto;
-}
-
-    main {
-        
-        width: 100%;
-        margin: 0 auto;
-    }
-
-</style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
+<body class="guide-page">
 
 <div class="wrapper">
 
@@ -176,7 +21,7 @@
 
     
 <div style="margin-bottom: 20px; text-align: left;">
-    <a href="inicio.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; font-weight: 600; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px 16px; background: #b91c1c; border: 1px solid #b91c1c; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background 0.2s, transform 0.2s;" onmouseover="this.style.background='#dc2626'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#b91c1c'; this.style.transform='none';">
+    <a href="inicio.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; font-weight: 600; font-family: 'Segoe UI', Tahoma, sans-serif; padding: 10px 16px; background: #1d4ed8; border: 1px solid #1d4ed8; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: background 0.2s, transform 0.2s;" onmouseover="this.style.background='#3b82f6'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#1d4ed8'; this.style.transform='none';">
         &#8592; Volver al Menú Principal
     </a>
 </div>
@@ -264,7 +109,7 @@
 
 
     <!-- Botón flotante Maisito -->
-    <a href="maisia.html" id="maisIaBtn" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; text-decoration: none; right: 25px; bottom: 25px; z-index: 9999; background: var(--accent); color: white; position: fixed; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s, background-color 0.2s;" onmouseover="this.style.transform='scale(1.05)'; this.style.background='#dc2626';" onmouseout="this.style.transform='scale(1)'; this.style.background='var(--accent)';" title="Habla con Maisito">
+    <a href="maisia.html" id="maisIaBtn" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; text-decoration: none; right: 25px; bottom: 25px; z-index: 9999; background: var(--accent); color: white; position: fixed; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s, background-color 0.2s;" onmouseover="this.style.transform='scale(1.05)'; this.style.background='#3b82f6';" onmouseout="this.style.transform='scale(1)'; this.style.background='var(--accent)';" title="Habla con Maisito">
         <i class="fa-solid fa-robot" style="font-size: 1.3rem;"></i>
     </a>
 
