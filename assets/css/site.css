@@ -914,6 +914,33 @@ body.maisia-page .btn-back:hover {
     color: #ffffff;
 }
 
+body.maisia-page .btn-new-chat {
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid var(--accent);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+}
+
+body.maisia-page .btn-new-chat:hover {
+    background: var(--accent);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+body.maisia-page .btn-new-chat:active {
+    transform: translateY(0);
+}
+
 body.maisia-page .chat-messages {
     flex: 1;
     padding: 30px 24px;

@@ -21,7 +21,10 @@
     <div class="chat-container">
         <div class="chat-header">
             <h1><i class="fa-solid fa-microchip"></i> Maisito</h1>
-            <a href="inicio.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+            <div class="chat-header-actions" style="display: flex; gap: 10px; align-items: center;">
+                <button id="newChatBtn" class="btn-new-chat" title="Iniciar una nueva consulta"><i class="fa-solid fa-plus"></i> Nueva consulta</button>
+                <a href="inicio.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+            </div>
         </div>
 
         <div class="chat-messages" id="chatMessages">
@@ -55,6 +58,7 @@
             </button>
         </div>
         <iframe id="pdfFrame" src=""></iframe>
+        <iframe id="youtubeFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none; width: 100%; height: calc(100% - 50px); border: none;"></iframe>
     </div>
 </div>
 
