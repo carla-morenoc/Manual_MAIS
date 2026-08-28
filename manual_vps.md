@@ -32,8 +32,10 @@ El archivo de entorno está localizado en el VPS en `/home/ubuntu/opt/maisito/ba
 * **`CORS_ORIGINS`**: Lista en formato JSON de orígenes permitidos:
   `["http://localhost:3000", "http://localhost:8000", "https://maisformacion.com", "https://www.maisformacion.com", "https://formacion.mais.es"]`
 * **`MAIS_IA_SECURITY_TOKEN`**: Clave de comunicación interna segura entre servicios.
-* **`LLM_PROVIDER` / `LLM_MODEL`**: Proveedor del modelo (`groq`, `gemini`, o `deepseek`) y modelo a ejecutar.
-* **Claves de API**: `GROQ_API_KEY`, `GEMINI_API_KEY` o `DEEPSEEK_API_KEY` según el proveedor seleccionado.
+* **`LLM_PROVIDER` / `LLM_MODEL`**: Proveedor del modelo (`groq`, `gemini`, o `deepseek`) y modelo exacto a ejecutar (ej. `openai/gpt-oss-120b`, `gemini-3.6-flash`, o `deepseek-chat`).
+  > [!IMPORTANT]
+  > Google retira modelos obsoletos con frecuencia. Antes de configurar `LLM_MODEL` para Gemini, consulta la [lista oficial de modelos vigentes en Google AI Studio](https://ai.google.dev/gemini-api/docs/models?hl=es-419) para asegurarte de que el modelo seleccionado sigue activo y no devuelve un error 404.
+* **Claves de API (`GROQ_API_KEY`, `GEMINI_API_KEY`, `DEEPSEEK_API_KEY`)**: Claves de API para los respectivos proveedores. Es completamente compatible y seguro definir múltiples API keys en el archivo al mismo tiempo; el sistema utilizará única y exclusivamente la clave que corresponda al proveedor indicado en `LLM_PROVIDER`, ignorando las demás.
 
 ---
 
@@ -117,8 +119,11 @@ En lugar de instalar los programas directamente como harías en tu ordenador de 
 ## 1. El archivo de secretos y configuración (`.env`)
 En la carpeta `/home/ubuntu/opt/maisito/backend/` hay un archivo de texto llamado `.env`. Este archivo es como la libreta de contraseñas de Maisito. Si alguna vez tienes que cambiar la clave de la IA o los dominios web autorizados, debes modificar este archivo.
 
-* **GEMINI_API_KEY / GROQ_API_KEY**: Las contraseñas del proveedor que le da el cerebro a Maisito. Si la IA deja de responder de repente y dice que "no puede conectar con el servidor", es muy probable que tu clave de Groq o Gemini se haya caducado o haya alcanzado el límite. Tienes que meter una nueva clave aquí.
-* **LLM_PROVIDER**: Aquí escribes qué IA quieres usar. Escribe `groq` o `gemini` según corresponda.
+* **GEMINI_API_KEY / GROQ_API_KEY / DEEPSEEK_API_KEY**: Las contraseñas o claves del proveedor que le da el cerebro a Maisito. Puedes tener puestas varias claves al mismo tiempo sin problema; el servidor no se confundirá.
+* **LLM_PROVIDER**: Aquí escribes qué IA está activa en ese momento. Pon `groq`, `gemini` o `deepseek`. El servidor solo mirará la clave de la IA que esté escrita aquí y guardará o ignorará las demás de forma segura.
+* **LLM_MODEL**: El modelo exacto a usar. Ejemplos recomendados: `gemini-3.6-flash` para Gemini (o el último Flash estable disponible), `openai/gpt-oss-120b` para Groq, y `deepseek-chat` para DeepSeek.
+  > [!IMPORTANT]
+  > Google AI Studio depreca y apaga sus modelos antiguos muy rápido. Revisa siempre la [documentación de modelos de Google](https://ai.google.dev/gemini-api/docs/models?hl=es-419) antes de configurar este campo.
 
 ---
 

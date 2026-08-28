@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentViewerPage = 1;
     let currentBlobUrl = null;
 
+    let isSending = false;
+    let abortController = null;
+
     // --- GESTIÓN DE SESIÓN E HISTORIAL PERSISTENTE ---
     function generateSessionId() {
         return 'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
@@ -120,6 +123,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function startNewChat() {
+        if (abortController) {
+            abortController.abort();
+            abortController = null;
+        }
+        isSending = false;
+        removeTypingIndicator();
+
         currentSessionId = generateSessionId();
         localStorage.setItem("maisia_session_id", currentSessionId);
         closePdfViewer();
@@ -135,7 +145,11 @@ document.addEventListener("DOMContentLoaded", () => {
         renderFAQs();
         if (userInput) {
             userInput.value = "";
+            userInput.disabled = false;
             userInput.focus();
+        }
+        if (sendBtn) {
+            sendBtn.disabled = false;
         }
     }
 
@@ -419,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    async function enviarMensajeAegis(texto) {
+    async function enviarMensajeAegis(texto, signal) {
         const payload = {
             query: texto,
             pregunta: texto,
@@ -436,12 +450,21 @@ document.addEventListener("DOMContentLoaded", () => {
                     'Bypass-Tunnel-Reminder': 'true',
                     'ngrok-skip-browser-warning': 'true'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
+                signal: signal
             });
 
             if (response.ok) {
                 const data = await response.json();
-                return { answer: data.answer || data.respuesta, sources: data.sources || [], status: 'ok' };
+                const rawAnswer = data.answer || data.respuesta || "";
+                if (rawAnswer.includes("Error interno en la generación") || rawAnswer.includes("Error interno en")) {
+                    return { 
+                        answer: "Lo siento, no puedo conectar con el servidor en este momento. Por favor, contacta con el servicio técnico de MAIS.", 
+                        sources: [], 
+                        status: 'error' 
+                    };
+                }
+                return { answer: rawAnswer, sources: data.sources || [], status: 'ok' };
             }
 
             // Fallback a servidor local Flask si está corriendo en http://localhost:5000/chat
@@ -449,7 +472,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const localRes = await fetch('http://localhost:5000/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
+                    signal: signal
                 });
                 if (localRes.ok) {
                     const localData = await localRes.json();
@@ -462,18 +486,27 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error en la respuesta del servidor:", response.statusText);
             return { answer: "Lo siento, ha ocurrido un error al conectar con el servidor. Por favor, contacta con el servicio técnico.", sources: [], status: 'error' };
         } catch (error) {
+            // Si el error fue por cancelación, propagarlo
+            if (error.name === 'AbortError') {
+                throw error;
+            }
             // Si el túnel ngrok falla, probar endpoint local de Flask
             try {
                 const localRes = await fetch('http://localhost:5000/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
+                    signal: signal
                 });
                 if (localRes.ok) {
                     const localData = await localRes.json();
                     return { answer: localData.respuesta || localData.answer, sources: localData.sources || [], status: 'ok' };
                 }
             } catch (localErr) {
+                // Propagar AbortError si fue cancelado aquí también
+                if (localErr.name === 'AbortError') {
+                    throw localErr;
+                }
                 console.warn("No se pudo conectar al servidor local tras fallo del túnel:", localErr);
             }
 
@@ -586,21 +619,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function handleSend() {
         const text = userInput.value.trim();
-        if (!text) return;
+        if (!text || isSending) return;
+
+        isSending = true;
+        const sendingSessionId = currentSessionId;
+
+        // Deshabilitar input y botón de enviar
+        if (userInput) userInput.disabled = true;
+        if (sendBtn) sendBtn.disabled = true;
 
         removeFAQs(); // Remove FAQs when user types something
 
         userInput.value = "";
-        userInput.focus();
         addMessage(text, "user", [], true);
 
         showTypingIndicator();
 
-        // Obtener respuesta del backend de la IA con fuentes
-        const dataRespuesta = await enviarMensajeAegis(text);
+        if (abortController) {
+            abortController.abort();
+        }
+        abortController = new AbortController();
 
-        removeTypingIndicator();
-        addMessage(dataRespuesta.answer, "bot", dataRespuesta.sources, true, dataRespuesta.status || 'ok');
+        try {
+            // Obtener respuesta del backend de la IA con fuentes
+            const dataRespuesta = await enviarMensajeAegis(text, abortController.signal);
+
+            if (currentSessionId !== sendingSessionId) return;
+
+            removeTypingIndicator();
+            addMessage(dataRespuesta.answer, "bot", dataRespuesta.sources, true, dataRespuesta.status || 'ok');
+        } catch (error) {
+            if (error.name === 'AbortError') return;
+            
+            if (currentSessionId === sendingSessionId) {
+                removeTypingIndicator();
+                addMessage("Lo siento, ha ocurrido un error al conectar con el servidor. Por favor, contacta con el servicio técnico.", "bot", [], true, 'error');
+            }
+        } finally {
+            if (currentSessionId === sendingSessionId) {
+                isSending = false;
+                abortController = null;
+                if (userInput) {
+                    userInput.disabled = false;
+                    userInput.focus();
+                }
+                if (sendBtn) {
+                    sendBtn.disabled = false;
+                }
+            }
+        }
     }
 
     // Eventos
