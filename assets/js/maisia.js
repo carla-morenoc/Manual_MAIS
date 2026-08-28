@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const nextPageBtn = document.getElementById("nextPageBtn");
     const pageIndicator = document.getElementById("pageIndicator");
 
-    const BASE_URL = 'https://footing-jellied-glamorous.ngrok-free.dev';
+    const BASE_URL = 'https://formacion.mais.es';
     const WELCOME_MESSAGE = '¡Hola! Soy <strong>Maisito</strong>, tu asistente de MAIS. Estoy aquí para ayudarte a resolver cualquier duda sobre nuestro sistema de gestión ERP. ¿En qué te puedo ayudar hoy?';
 
     // Variables de estado del visor de PDF
@@ -56,14 +56,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function addMessageToDOM(text, sender, sources = []) {
+    function addMessageToDOM(text, sender, sources = [], status = 'ok') {
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message", sender);
 
         const avatarDiv = document.createElement("div");
         avatarDiv.classList.add("avatar");
         if (sender === "bot") {
-            avatarDiv.innerHTML = '<i class="fa-solid fa-robot"></i>';
+            const avatarImg = status === 'error' ? 'maisito_llorando.jfif' : 'maisito_feliz.jfif';
+            avatarDiv.innerHTML = `<img src="../assets/images/${avatarImg}" alt="Maisito" class="bot-avatar-img">`;
         } else {
             avatarDiv.innerHTML = '<i class="fa-solid fa-user"></i>';
         }
@@ -84,12 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollToBottom();
     }
 
-    function addMessage(text, sender, sources = [], saveToHistory = true) {
-        addMessageToDOM(text, sender, sources);
+    function addMessage(text, sender, sources = [], saveToHistory = true, status = 'ok') {
+        addMessageToDOM(text, sender, sources, status);
 
         if (saveToHistory) {
             let history = getSessionHistory(currentSessionId) || [];
-            history.push({ text, sender, sources, timestamp: Date.now() });
+            history.push({ text, sender, sources, status, timestamp: Date.now() });
             saveSessionHistory(currentSessionId, history);
         }
     }
@@ -99,18 +100,19 @@ document.addEventListener("DOMContentLoaded", () => {
         let history = getSessionHistory(currentSessionId);
         if (history && history.length > 0) {
             history.forEach(msg => {
-                addMessageToDOM(msg.text, msg.sender, msg.sources || []);
+                addMessageToDOM(msg.text, msg.sender, msg.sources || [], msg.status || 'ok');
             });
             if (history.length === 1 && history[0].sender === "bot") {
                 renderFAQs();
             }
         } else {
             // Inicializar mensaje de bienvenida si la sesión es nueva
-            addMessageToDOM(WELCOME_MESSAGE, "bot");
+            addMessageToDOM(WELCOME_MESSAGE, "bot", [], "ok");
             saveSessionHistory(currentSessionId, [{
                 text: WELCOME_MESSAGE,
                 sender: "bot",
                 sources: [],
+                status: "ok",
                 timestamp: Date.now()
             }]);
             renderFAQs();
@@ -122,11 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("maisia_session_id", currentSessionId);
         closePdfViewer();
         chatMessages.innerHTML = "";
-        addMessageToDOM(WELCOME_MESSAGE, "bot");
+        addMessageToDOM(WELCOME_MESSAGE, "bot", [], "ok");
         saveSessionHistory(currentSessionId, [{
             text: WELCOME_MESSAGE,
             sender: "bot",
             sources: [],
+            status: "ok",
             timestamp: Date.now()
         }]);
         renderFAQs();
@@ -339,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            return `<button class="citation-pill youtube-pill" data-type="youtube" data-video-id="${videoId}" data-seconds="${seconds}" style="background-color: #ff000018; border-color: #ff000088; color: #ff4a4a; cursor: pointer;"><i class="fa-brands fa-youtube" style="color: #ff0000; margin-right: 4px;"></i> ${match}</button>`;
+            return `<button class="citation-pill youtube-pill" data-type="youtube" data-video-id="${videoId}" data-seconds="${seconds}"><i class="fa-brands fa-youtube"></i> ${match}</button>`;
         });
 
         return formatted;
@@ -359,7 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const avatarDiv = document.createElement("div");
         avatarDiv.classList.add("avatar");
-        avatarDiv.innerHTML = '<i class="fa-solid fa-robot"></i>';
+        avatarDiv.innerHTML = '<img src="../assets/images/maisito_pensando.jpg" alt="Maisito" class="bot-avatar-img">';
 
         const contentDiv = document.createElement("div");
         contentDiv.classList.add("message-content", "typing-indicator");
@@ -438,7 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (response.ok) {
                 const data = await response.json();
-                return { answer: data.answer || data.respuesta, sources: data.sources || [] };
+                return { answer: data.answer || data.respuesta, sources: data.sources || [], status: 'ok' };
             }
 
             // Fallback a servidor local Flask si está corriendo en http://localhost:5000/chat
@@ -450,14 +453,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 if (localRes.ok) {
                     const localData = await localRes.json();
-                    return { answer: localData.respuesta || localData.answer, sources: localData.sources || [] };
+                    return { answer: localData.respuesta || localData.answer, sources: localData.sources || [], status: 'ok' };
                 }
             } catch (localErr) {
                 console.warn("No se pudo conectar al endpoint local de Flask:", localErr);
             }
 
             console.error("Error en la respuesta del servidor:", response.statusText);
-            return { answer: "Lo siento, ha ocurrido un error al conectar con el servidor. Por favor, contacta con el servicio técnico.", sources: [] };
+            return { answer: "Lo siento, ha ocurrido un error al conectar con el servidor. Por favor, contacta con el servicio técnico.", sources: [], status: 'error' };
         } catch (error) {
             // Si el túnel ngrok falla, probar endpoint local de Flask
             try {
@@ -468,7 +471,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 if (localRes.ok) {
                     const localData = await localRes.json();
-                    return { answer: localData.respuesta || localData.answer, sources: localData.sources || [] };
+                    return { answer: localData.respuesta || localData.answer, sources: localData.sources || [], status: 'ok' };
                 }
             } catch (localErr) {
                 console.warn("No se pudo conectar al servidor local tras fallo del túnel:", localErr);
@@ -477,7 +480,8 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error de conexión:", error);
             return { 
                 answer: "Lo siento, no puedo conectar con el servidor en este momento. Por favor, contacta con el servicio técnico de MAIS.", 
-                sources: [] 
+                sources: [], 
+                status: 'error'
             };
         }
     }
@@ -596,7 +600,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const dataRespuesta = await enviarMensajeAegis(text);
 
         removeTypingIndicator();
-        addMessage(dataRespuesta.answer, "bot", dataRespuesta.sources, true);
+        addMessage(dataRespuesta.answer, "bot", dataRespuesta.sources, true, dataRespuesta.status || 'ok');
     }
 
     // Eventos
