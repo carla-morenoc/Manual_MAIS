@@ -162,3 +162,139 @@ Si hemos hecho cambios en la oficina y queremos subirlos a la web de producción
   cd /home/ubuntu/opt/maisito && sudo docker compose -f docker-compose.prod.yml logs -f backend
   ```
   *(Para salir de esa pantalla de texto y volver a escribir comandos normales, pulsa en tu teclado las teclas `Ctrl` + `C` a la vez).*
+
+---
+---
+
+# 🔐 Acceso Protegido al Panel de Administración (`formacion.mais.es`)
+
+El panel de configuración y administración de vídeos de la IA está protegido mediante **Nginx HTTP Basic Auth**, una capa de seguridad perimetral que actúa *antes* de que la petición llegue a los contenedores Docker.
+
+---
+
+## 🛠️ PARTE TÉCNICA — Cómo funciona la autenticación Nginx
+
+### Flujo de Autenticación
+```
+Navegador → HTTPS (puerto 443) → Nginx
+                                    ↓
+                         ¿Tiene credenciales válidas?
+                            ├── NO → Responde 401 y muestra cuadro de login
+                            └── SÍ → Verifica hash en /etc/nginx/.htpasswd
+                                        └── Reenvía petición → Docker:3000 (frontend)
+```
+
+### Configuración del bloque Nginx
+El fichero de configuración habitual está en `/etc/nginx/sites-available/maisito` (o `default`):
+
+```nginx
+server {
+    listen 443 ssl;
+    server_name formacion.mais.es;
+
+    # Certificados SSL (Let's Encrypt / Certbot)
+    ssl_certificate     /etc/letsencrypt/live/formacion.mais.es/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/formacion.mais.es/privkey.pem;
+
+    # ── Protección con contraseña ──────────────────────────
+    auth_basic           "Panel de Administración MAIS";
+    auth_basic_user_file /etc/nginx/.htpasswd;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+### Fichero `.htpasswd` — Algoritmo de Cifrado
+Las contraseñas se almacenan en `/etc/nginx/.htpasswd` en el siguiente formato:
+```
+usuario:$apr1$randomsalt$hashcifrado
+```
+
+El prefijo `$apr1$` indica el algoritmo **APR1-MD5** (variante de MD5 usada por Apache/Nginx con 1000 iteraciones de sal). Nginx también acepta el prefijo `$2y$` para **bcrypt**, que es más robusto:
+
+| Prefijo | Algoritmo | Seguridad |
+|:---|:---|:---|
+| `$apr1$` | APR1-MD5 | Media (legacy) |
+| `{SHA}` | SHA-1 | Baja (no recomendado) |
+| `$2y$` | bcrypt | Alta ✅ (recomendado) |
+
+### Operaciones Administrativas con `.htpasswd`
+
+#### Crear un usuario nuevo (bcrypt, recomendado):
+```bash
+sudo htpasswd -B /etc/nginx/.htpasswd nuevo_usuario
+```
+
+#### Cambiar la contraseña de un usuario existente:
+```bash
+sudo htpasswd -B /etc/nginx/.htpasswd nombre_usuario
+```
+
+#### Eliminar un usuario:
+```bash
+sudo htpasswd -D /etc/nginx/.htpasswd nombre_usuario
+```
+
+#### Ver los usuarios actuales (sin contraseñas, solo nombres):
+```bash
+sudo cut -d: -f1 /etc/nginx/.htpasswd
+```
+
+### Aplicar cambios tras modificar el fichero:
+```bash
+# Verificar que la configuración de Nginx no tiene errores de sintaxis
+sudo nginx -t
+
+# Recargar Nginx sin cortar las conexiones activas
+sudo systemctl reload nginx
+```
+
+### Error E: "401 Authorization Required" al acceder a `formacion.mais.es`
+* **Causa:** Las credenciales son incorrectas o el fichero `.htpasswd` no existe/tiene mal la ruta.
+* **Diagnóstico:**
+  ```bash
+  sudo cat /etc/nginx/.htpasswd   # ¿Existe el fichero?
+  sudo nginx -t                   # ¿Tiene errores la config de Nginx?
+  ```
+* **Solución:** Recrear el fichero si no existe:
+  ```bash
+  sudo htpasswd -cB /etc/nginx/.htpasswd nombre_usuario
+  sudo systemctl reload nginx
+  ```
+
+---
+
+## 🧸 PARTE SENCILLA — La contraseña del panel de vídeos
+
+Cuando alguien abre `formacion.mais.es` en el navegador, le aparece un **cuadro de diálogo con usuario y contraseña**. Eso no lo gestiona Maisito ni el código del chat, sino el servidor web llamado **Nginx**, que actúa como portero.
+
+La contraseña **nunca se guarda en texto claro**. Se guarda revuelta (cifrada) en un fichero especial en el servidor llamado `.htpasswd`. Cuando el usuario escribe su contraseña, Nginx la revuelve de la misma manera y compara los resultados. Si coinciden, deja pasar.
+
+### ¿Cómo cambio la contraseña?
+
+1. Conéctate al servidor (consola negra):
+   ```bash
+   ssh ubuntu@57.131.148.194
+   ```
+2. Copia y pega este comando cambiando `nombre_usuario` por el usuario cuya contraseña quieres cambiar:
+   ```bash
+   sudo htpasswd -B /etc/nginx/.htpasswd nombre_usuario
+   ```
+3. Te pedirá la nueva contraseña dos veces. Cuando termines, no hace falta reiniciar nada.
+
+### ¿Cómo añado un usuario nuevo?
+El mismo comando sirve para crear usuarios nuevos si el usuario que escribes no existe todavía:
+```bash
+sudo htpasswd -B /etc/nginx/.htpasswd usuario_nuevo
+```
+
+### ¿Qué pasa si el panel no deja entrar a nadie?
+Si nadie puede entrar al panel aunque la contraseña sea la correcta, prueba este comando para recargar el portero:
+```bash
+sudo systemctl reload nginx
+```
+
